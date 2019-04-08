@@ -19,17 +19,17 @@ contract SocialCommitment is Ownable {
     event PledgeReceived(address indexed backer, uint256 amount);
 
     modifier notFinalized() {
-        require(!finalized);
+        require(!finalized, "Cannot call while finalized");
         _;
     }
 
     modifier beforeDeadline() {
-        require(now < deadline);
+        require(now < deadline, "Cannot call after deadline");
         _;
     }
 
     modifier onlyReferee() {
-        require(msg.sender == referee);
+        require(msg.sender == referee, "Only referee can call");
         _;
     }
 
@@ -69,9 +69,16 @@ contract SocialCommitment is Ownable {
     }
 
     function finaliseFail() public onlyReferee beforeDeadline notFinalized {
-        if(failureBeneficiary != address(0)) {
+        if (failureBeneficiary != address(0)) {
             failureBeneficiary.transfer(address(this).balance);
         }
         finalized = true;
+    }
+
+    function withdraw() public {
+        require(finalized || now > deadline, "Must be be finalized or after deadline");
+        uint256 amount = balances[msg.sender];
+        balances[msg.sender] = 0;
+        msg.sender.transfer(amount);
     }
 }
