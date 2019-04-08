@@ -3,17 +3,20 @@ pragma solidity ^0.5.0;
 import "./SocialCommitment.sol";
 
 contract Listing {
+
+    address[] public commitmentContracts;
+
     event SocialCommitmentCreated(address contractAddress);
 
     function deploy(
         address payable _successBeneficiary,
         address payable _failureBeneficiary,
         address _referee,
-        string memory _title,
-        string memory _description,
+        string calldata _title,
+        string calldata _description,
         uint256 _deadline
     ) external {
-        address addr = new SocialCommitment(
+        address addr = address(new SocialCommitment(
             msg.sender, // challenger
             _successBeneficiary,
             _failureBeneficiary,
@@ -21,7 +24,12 @@ contract Listing {
             _title,
             _description,
             _deadline
-        );
+        ));
+        commitmentContracts.push(addr);
         emit SocialCommitmentCreated(addr);
+    }
+
+    function numberOfCommitmentContracts() public view returns (uint) {
+        return commitmentContracts.length;
     }
 }
