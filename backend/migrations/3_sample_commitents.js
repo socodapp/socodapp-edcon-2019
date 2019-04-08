@@ -7,8 +7,6 @@ const now = () => Math.ceil((new Date()).getTime() / 1000);
 
 module.exports = function (deployer) {
     deployer.then(async () => {
-        // const listingAddress = '0x17EFdB2fD6ef7937ef7437b33C36C1688B64428d';
-        // const listing = await Listing.at(listingAddress);
         const listing = await Listing.deployed();
 
         const referee = '0x3840146DD67c0e7E58515958327D4EF80d7ecf53';

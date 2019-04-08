@@ -4,9 +4,16 @@ import "./SocialCommitment.sol";
 
 contract Listing {
 
-    address[] public commitmentContracts;
-
-    event SocialCommitmentCreated(address contractAddress);
+    event SocialCommitmentCreated(
+        address contractAddress,
+        address challenger,
+        address successBeneficiary,
+        address failureBeneficiary,
+        address referee,
+        string title,
+        string description,
+        uint256 deadline
+    );
 
     function deploy(
         address payable _successBeneficiary,
@@ -17,19 +24,23 @@ contract Listing {
         uint256 _deadline
     ) external {
         address addr = address(new SocialCommitment(
-            msg.sender, // challenger
+                msg.sender, // challenger
+                _successBeneficiary,
+                _failureBeneficiary,
+                _referee,
+                _title,
+                _description,
+                _deadline
+            ));
+        emit SocialCommitmentCreated(
+            addr,
+            msg.sender,
             _successBeneficiary,
             _failureBeneficiary,
             _referee,
             _title,
             _description,
             _deadline
-        ));
-        commitmentContracts.push(addr);
-        emit SocialCommitmentCreated(addr);
-    }
-
-    function numberOfCommitmentContracts() public view returns (uint) {
-        return commitmentContracts.length;
+        );
     }
 }
