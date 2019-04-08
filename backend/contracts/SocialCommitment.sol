@@ -17,6 +17,7 @@ contract SocialCommitment is Ownable {
     bool finalized = false;
 
     event PledgeReceived(address indexed backer, uint256 amount);
+    event Finalized(bool success);
 
     modifier notFinalized() {
         require(!finalized, "Cannot call while finalized");
@@ -66,6 +67,7 @@ contract SocialCommitment is Ownable {
     function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
         successBeneficiary.transfer(address(this).balance);
         finalized = true;
+        emit Finalized(true);
     }
 
     function finaliseFail() public onlyReferee beforeDeadline notFinalized {
@@ -73,6 +75,7 @@ contract SocialCommitment is Ownable {
             failureBeneficiary.transfer(address(this).balance);
         }
         finalized = true;
+        emit Finalized(false);
     }
 
     function withdraw() public {
