@@ -1,8 +1,11 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+
 
 contract SocialCommitment {
+    IERC20 dai = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359);
 
     using SafeMath for uint256;
 
@@ -61,21 +64,23 @@ contract SocialCommitment {
         deadline = _deadline;
     }
 
-    function pledge() public payable beforeDeadline notFinalized {
-        require(msg.value > 0, "Zero pledge");
-        balances[msg.sender] = balances[msg.sender].add(msg.value);
-        emit PledgeReceived(msg.sender, msg.value);
+    function pledge() public beforeDeadline notFinalized {
+        uint256 amount = dai.allowance(msg.sender, address(this));
+        require(amount > 0, "Zero pledge");
+        balances[msg.sender] = balances[msg.sender].add(amount);
+        require(dai.transferFrom(msg.sender, address(this), amount), "Dai transfer failed");
+        emit PledgeReceived(msg.sender, amount);
     }
 
     function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
-        successBeneficiary.transfer(address(this).balance);
+        dai.transfer(successBeneficiary, dai.balanceOf(address(this)));
         finalized = true;
         emit Finalized(true);
     }
 
     function finaliseFail() public onlyReferee beforeDeadline notFinalized {
         if (failureBeneficiary != address(0)) {
-            failureBeneficiary.transfer(address(this).balance);
+            dai.transfer(failureBeneficiary, dai.balanceOf(address(this)));
         }
         finalized = true;
         emit Finalized(false);
@@ -85,6 +90,6 @@ contract SocialCommitment {
         require(finalized || now > deadline, "Must be be finalized or after deadline");
         uint256 amount = balances[msg.sender];
         balances[msg.sender] = 0;
-        msg.sender.transfer(amount);
+        dai.transfer(msg.sender, amount);
     }
 }
