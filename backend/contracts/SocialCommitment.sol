@@ -1,8 +1,11 @@
 pragma solidity ^0.5.0;
 
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 
 contract SocialCommitment is Ownable {
+
+    using SafeMath for uint256;
 
     address payable public successBeneficiary;
     address payable public failureBeneficiary;
@@ -11,6 +14,13 @@ contract SocialCommitment is Ownable {
     string public description;
     uint256 public deadline;
     mapping(address => uint256) balances;
+
+    event PledgeReceived(address indexed backer, uint256 amount);
+
+    modifier beforeDeadline() {
+        require(now < deadline);
+        _;
+    }
 
     /**
     * Initialise the SocialCommitment parameters
@@ -34,5 +44,11 @@ contract SocialCommitment is Ownable {
         title = _title;
         description = _description;
         deadline = _deadline;
+    }
+
+    function pledge() public payable beforeDeadline {
+        require(msg.value > 0, "Zero pledge");
+        balances[msg.sender] = balances[msg.sender].add(msg.value);
+        emit PledgeReceived(msg.sender, msg.value);
     }
 }
