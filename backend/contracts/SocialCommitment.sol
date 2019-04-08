@@ -14,11 +14,22 @@ contract SocialCommitment is Ownable {
     string public description;
     uint256 public deadline;
     mapping(address => uint256) balances;
+    bool finalized = false;
 
     event PledgeReceived(address indexed backer, uint256 amount);
 
+    modifier notFinalized() {
+        require(!finalized);
+        _;
+    }
+
     modifier beforeDeadline() {
         require(now < deadline);
+        _;
+    }
+
+    modifier onlyReferee() {
+        require(msg.sender == referee);
         _;
     }
 
@@ -46,9 +57,21 @@ contract SocialCommitment is Ownable {
         deadline = _deadline;
     }
 
-    function pledge() public payable beforeDeadline {
+    function pledge() public payable beforeDeadline notFinalized {
         require(msg.value > 0, "Zero pledge");
         balances[msg.sender] = balances[msg.sender].add(msg.value);
         emit PledgeReceived(msg.sender, msg.value);
+    }
+
+    function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
+        successBeneficiary.transfer(address(this).balance);
+        finalized = true;
+    }
+
+    function finaliseFail() public onlyReferee beforeDeadline notFinalized {
+        if(failureBeneficiary != address(0)) {
+            failureBeneficiary.transfer(address(this).balance);
+        }
+        finalized = true;
     }
 }
