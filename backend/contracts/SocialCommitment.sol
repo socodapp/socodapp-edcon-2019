@@ -1,12 +1,12 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 
-contract SocialCommitment is Ownable {
+contract SocialCommitment {
 
     using SafeMath for uint256;
 
+    address public challenger;
     address payable public successBeneficiary;
     address payable public failureBeneficiary;
     address public referee;
@@ -38,6 +38,7 @@ contract SocialCommitment is Ownable {
     * Initialise the SocialCommitment parameters
     */
     constructor (
+        address _challenger,
         address payable _successBeneficiary,
         address payable _failureBeneficiary,
         address _referee,
@@ -45,11 +46,13 @@ contract SocialCommitment is Ownable {
         string memory _description,
         uint256 _deadline
     ) public {
+        require(_challenger != address(0), "Challenger is not defined");
         require(_successBeneficiary != address(0), "Success beneficiary not defined");
         require(_referee != address(0), "Referee not defined");
         require(bytes(_title).length != 0, "Title not defined");
         require(_deadline > now);
 
+        challenger = _challenger;
         successBeneficiary = _successBeneficiary;
         failureBeneficiary = _failureBeneficiary;
         referee = _referee;
