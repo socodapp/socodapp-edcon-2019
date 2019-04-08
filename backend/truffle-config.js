@@ -65,6 +65,8 @@ module.exports = {
                 return new HDWalletProvider(Secrets.wallet_mnemonic, `https://kovan.infura.io/v3/${Secrets.infura_access_token}`)
             },
             network_id: 42,
+            gas: 4 * 10**6,
+            gasPrice: 2 * 10**9
         }
 
         // Useful for private networks
