@@ -1,2 +1,5 @@
 # IntelliJ IDE
 .idea
+
+# Node modules
+**/node_modules
