@@ -1,0 +1,17 @@
+:local(.container) {
+  display: 'flex';
+  flex-wrap: 'wrap';
+}
+
+:local(.textField) {
+  margin-left: 20px !important;
+  margin-right: 20px;
+}
+
+:local(.dense) {
+  margin-top: 16;
+}
+
+:local(.menu) {
+  width: 100;
+}

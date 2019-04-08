@@ -1,0 +1,13 @@
+
+:local(.container) {
+  flex-grow: 1 !important;
+}
+
+:local(.root) {
+  flex-grow: 1;
+}
+
+:local(.paper){
+  padding: 10px;
+  text-align: 'center';
+}

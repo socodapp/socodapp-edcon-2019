@@ -1,69 +1,44 @@
 import React, { Component } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-
+import Button from '@material-ui/core/Button';
 
 import styles from './header.css';
 import { NavLink } from 'react-router-dom';
 
 class Header extends Component {
 
-  constructor(props) {
-    super(props)
-    
-    this.state = {
-      anchorEl: null,
-    };
-  }
-
-
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
   render() {
     return (
-      <div id={styles.headerWrapper}>
-          <AppBar position="static">
-        <Toolbar>
-          <Grid   container
+        <Toolbar >
+          <Grid 
+            container
             direction="row"
-            justify="center"
             alignItems="center"
+            spacing={24}
           >
             <Grid item>
+              <Button className={styles.navButton}>
+                <NavLink to="/">Strive</NavLink>
+              </Button>
+            </Grid>
+            <Grid item>
               <Typography variant="h6" color="inherit">
-              <NavLink to="/">Strive</NavLink>
-
+                <Button classes={styles.navButton}>
+                  <NavLink to="/deploy">Deploy</NavLink>
+                </Button>
               </Typography>
             </Grid>
             <Grid item>
               <Typography variant="h6" color="inherit">
-              <NavLink to="/deploy">Deploy</NavLink>
-
+                <Button className={styles.navButton}>
+                  <NavLink to="/challenges">Challenges</NavLink>
+                </Button>
               </Typography>
             </Grid>
-            <Grid item>
-              <Typography variant="h6" color="inherit">
-              <NavLink to="/listing">Listing</NavLink>
-
-              </Typography>
-            </Grid>
- 
           </Grid>
-
         </Toolbar>
-
-
-      </AppBar>
-      </div>
     )
   }
 }
