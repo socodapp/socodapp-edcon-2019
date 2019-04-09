@@ -12,6 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import { MetaMask } from '@tokenfoundry/react-metamask';
+import InjectWeb3 from '../InjectWeb3/InjectWeb3';
 
 const currencies = [
   {
@@ -38,6 +40,8 @@ class Deploy extends Component {
     age: '',
     multiline: 'Controlled',
     currency: 'EUR',
+    web3: null,
+    accounts: []
   };
 
   handleChange = name => event => {
@@ -49,6 +53,10 @@ class Deploy extends Component {
   handleDateChange = date => {
     this.setState({ selectedDate: date });
   };
+
+  setMetaMaskProps = (web3, accounts) => {
+    this.setState({web3, accounts});
+  }
   
   render() {
 
@@ -140,6 +148,11 @@ class Deploy extends Component {
 
         </Grid>
         <Grid item>
+          InjectWeb3(
+            <div>
+              {this.props.accounts[0]}
+            </div>
+          )
           <Button variant="contained" color="secondary">DEPLOY</Button>
         </Grid>
       </Grid>

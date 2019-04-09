@@ -8,16 +8,21 @@ import Deploy from './Deploy/deploy.js';
 import styles from './App.css';
 import ChallengeList from './ChallengeList/challenge-list.js';
 
+import MetaMaskContext from "./shared/metamask";
+
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className={styles.App}>
-          <Header /> 
-          <Route exact path="/" component={Home} />
-          <Route path="/deploy" component={Deploy} />
-          <Route path="/challenges" component={ChallengeList} />
-        </div>
+        <MetaMaskContext.Provider immediate>
+
+          <div className={styles.App}>
+            <Header /> 
+            <Route exact path="/" component={Home} />
+            <Route path="/deploy" component={Deploy} />
+            <Route path="/challenges" component={ChallengeList} />
+          </div>
+        </MetaMaskContext.Provider>
       </BrowserRouter>
     );
   };
