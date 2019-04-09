@@ -1,8 +1,17 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import "./CommitmentPhases.sol";
 
-contract SocialCommitment {
+
+contract SocialCommitment is CommitmentPhases {
+    // MAIN
+    // IERC20 dai = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359);
+
+    // ROPSTEN
+    IERC20 dai = IERC20(0x7d5E6A841Ec195F30911074d920EEc665A973A2D);
+
 
     using SafeMath for uint256;
 
@@ -12,22 +21,9 @@ contract SocialCommitment {
     address public referee;
     string public title;
     string public description;
-    uint256 public deadline;
     mapping(address => uint256) balances;
-    bool finalized = false;
 
     event PledgeReceived(address indexed backer, uint256 amount);
-    event Finalized(bool success);
-
-    modifier notFinalized() {
-        require(!finalized, "Cannot call while finalized");
-        _;
-    }
-
-    modifier beforeDeadline() {
-        require(now < deadline, "Cannot call after deadline");
-        _;
-    }
 
     modifier onlyReferee() {
         require(msg.sender == referee, "Only referee can call");
@@ -45,12 +41,11 @@ contract SocialCommitment {
         string memory _title,
         string memory _description,
         uint256 _deadline
-    ) public {
+    ) CommitmentPhases(_deadline) public {
         require(_challenger != address(0), "Challenger is not defined");
         require(_successBeneficiary != address(0), "Success beneficiary not defined");
         require(_referee != address(0), "Referee not defined");
         require(bytes(_title).length != 0, "Title not defined");
-        require(_deadline > now);
 
         challenger = _challenger;
         successBeneficiary = _successBeneficiary;
@@ -58,33 +53,31 @@ contract SocialCommitment {
         referee = _referee;
         title = _title;
         description = _description;
-        deadline = _deadline;
     }
 
-    function pledge() public payable beforeDeadline notFinalized {
-        require(msg.value > 0, "Zero pledge");
-        balances[msg.sender] = balances[msg.sender].add(msg.value);
-        emit PledgeReceived(msg.sender, msg.value);
+    function pledge() public beforeDeadline notFinalized {
+        uint256 amount = dai.allowance(msg.sender, address(this));
+        require(amount > 0, "Zero pledge");
+        balances[msg.sender] = balances[msg.sender].add(amount);
+        require(dai.transferFrom(msg.sender, address(this), amount), "Dai transfer failed");
+        emit PledgeReceived(msg.sender, amount);
     }
 
     function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
-        successBeneficiary.transfer(address(this).balance);
-        finalized = true;
-        emit Finalized(true);
+        dai.transfer(successBeneficiary, dai.balanceOf(address(this)));
+        _finalize();
     }
 
     function finaliseFail() public onlyReferee beforeDeadline notFinalized {
         if (failureBeneficiary != address(0)) {
-            failureBeneficiary.transfer(address(this).balance);
+            dai.transfer(failureBeneficiary, dai.balanceOf(address(this)));
         }
-        finalized = true;
-        emit Finalized(false);
+        _finalize();
     }
 
-    function withdraw() public {
-        require(finalized || now > deadline, "Must be be finalized or after deadline");
+    function withdraw() public finalizedOrAfterDeadline {
         uint256 amount = balances[msg.sender];
         balances[msg.sender] = 0;
-        msg.sender.transfer(amount);
+        dai.transfer(msg.sender, amount);
     }
 }

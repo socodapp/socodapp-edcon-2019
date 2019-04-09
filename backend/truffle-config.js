@@ -67,6 +67,15 @@ module.exports = {
             network_id: 42,
             gas: 4 * 10**6,
             gasPrice: 2 * 10**9
+        },
+
+        ropsten: {
+            provider: function () {
+                return new HDWalletProvider(Secrets.wallet_mnemonic, `https://ropsten.infura.io/v3/${Secrets.infura_access_token}`)
+            },
+            network_id: 3,
+            gas: 4 * 10**6,
+            gasPrice: 2 * 10**9
         }
 
         // Useful for private networks
