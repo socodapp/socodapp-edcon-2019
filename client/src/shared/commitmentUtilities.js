@@ -44,8 +44,8 @@ export const finalize = (addr, success) => {
         Commitment.setProvider(currentProvider());
         return Commitment.at(addr)
             .then(contract => success ?
-                contract.finaliseSucceed({from: activeUser()}) :
-                contract.finaliseFail({from: activeUser()})
+                contract.finalizeSucceed({from: activeUser()}) :
+                contract.finalizeFail({from: activeUser()})
             )
     }
 };

@@ -62,12 +62,12 @@ contract SocialCommitment is CommitmentPhases {
         emit PledgeReceived(msg.sender, amount);
     }
 
-    function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
+    function finalizeSucceed() public onlyReferee beforeDeadline notFinalized {
         dai.transfer(successBeneficiary, dai.balanceOf(address(this)));
         _finalize();
     }
 
-    function finaliseFail() public onlyReferee beforeDeadline notFinalized {
+    function finalizeFail() public onlyReferee beforeDeadline notFinalized {
         if (failureBeneficiary != address(0)) {
             dai.transfer(failureBeneficiary, dai.balanceOf(address(this)));
         }
