@@ -13,10 +13,18 @@ import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import { AccessAlarm, ThreeDRotation, ArrowForward } from '@material-ui/icons';
 
+import { ethers } from 'ethers';
+
+import getListing from '../shared/etherscanUtils.js'
+
+const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064";
+const apiKey = "YourApiKeyToken";
+const apiUrl = "https://api-kovan.etherscan.io/api?module=logs&action=getLogs&fromBlock=10706350&toBlock=latest";
 
 class ChallengeList extends Component {
   state = {
     checked: [0],
+    items: [],
   };
 
   handleToggle = value => () => {
@@ -35,23 +43,37 @@ class ChallengeList extends Component {
     });
   };
 
-  render() {
+  async componentDidMount() {
+    const items = await getListing();
+    this.setState({isLoaded: true, items: items});
+  }
 
-    return (
-      <List className={styles.root}>
-        {[0, 1, 2, 3].map(value => (
-          <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
-
-            <ListItemText primary={`Line item ${value + 1}`} />
-            <ListItemText primary={`Line item ${value + 1}`} />
-            <ListItemText primary={`Line item ${value + 1}`} />
+  renderItems(items) {
+  const result = items.map(arr => (
+          <ListItem key={arr[0]} role={undefined} dense button onClick={this.handleToggle(arr[0])}>
+            <Checkbox
+              checked={this.state.checked.indexOf(arr[0]) !== -1}
+              tabIndex={-1}
+              disableRipple
+            />
+            <ListItemText primary={`Title ${arr[0]}`} />
+            <ListItemText primary={`Description ${arr[1]}`} />
+            <ListItemText primary={`Balance ${arr[2]}`} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
                 <ArrowForward />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
-        ))}
+        ));
+    return result;
+}
+
+  render() {
+    // TODO write a nice UI
+    return (
+      <List className={styles.root}>
+        {this.renderItems(this.state.items)}
       </List>
     );
   }

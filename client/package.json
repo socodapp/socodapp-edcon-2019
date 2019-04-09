@@ -9,13 +9,15 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "date-fns": "^2.0.0-alpha.27",
+    "ethers": "^4.0.27",
     "material-ui": "^0.20.2",
     "material-ui-pickers": "^2.2.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "typeface-montserrat": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
