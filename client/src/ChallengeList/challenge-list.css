@@ -21,12 +21,14 @@
 
 :local(.modal) {
   background-color: white;
-  position: absolute;
   margin: 120px auto;
   padding: 100px;
-  height: 80%;
   box-shadow: 5;
-  outline: none,
+  outline: none;
+  position:absolute;
+  overflow:scroll;
+  height: 100%;
+  display: block;
 }
 
 :local(.gridMargin) {
