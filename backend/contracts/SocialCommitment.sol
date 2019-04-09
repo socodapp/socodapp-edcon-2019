@@ -6,7 +6,12 @@ import "./CommitmentPhases.sol";
 
 
 contract SocialCommitment is CommitmentPhases {
-    IERC20 dai = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359);
+    // MAIN
+    // IERC20 dai = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359);
+
+    // ROPSTEN
+    IERC20 dai = IERC20(0x7d5E6A841Ec195F30911074d920EEc665A973A2D);
+
 
     using SafeMath for uint256;
 

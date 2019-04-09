@@ -4,6 +4,8 @@ import "./SocialCommitment.sol";
 
 contract Listing {
 
+    address[] public commitmentContracts;
+
     event SocialCommitmentCreated(
         address contractAddress,
         address challenger,
@@ -32,6 +34,7 @@ contract Listing {
                 _description,
                 _deadline
             ));
+        commitmentContracts.push(addr);
         emit SocialCommitmentCreated(
             addr,
             msg.sender,
@@ -42,5 +45,9 @@ contract Listing {
             _description,
             _deadline
         );
+    }
+
+    function numberOfCommitments() public view returns (uint256) {
+        return commitmentContracts.length;
     }
 }
