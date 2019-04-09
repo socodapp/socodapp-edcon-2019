@@ -16,10 +16,9 @@
 
 :local(.modal) {
   background-color: white;
-  width: 80%;
-  height: 80%;
   position: absolute;
-  margin: 5%;
+  margin: 120px auto;
+  height: 80%;
   box-shadow: 5;
   padding: 30px;
   outline: none,

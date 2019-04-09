@@ -22,7 +22,6 @@ class ChallengeList extends Component {
     selectedItem: null
   };
 
-
   handleOpen = (item) => {
     this.setState({selectedItem: item});
     this.setState({ open: true });
@@ -79,7 +78,7 @@ class ChallengeList extends Component {
     return (
       <Grid>
         <List className={styles.container}>
-          <ListItem className={styles.list} role={undefined}>
+          <ListItem className={styles.list}>
             <Grid item xs={2}>
                 <ListItemText primary={'Num'} />
               </Grid>
@@ -103,7 +102,7 @@ class ChallengeList extends Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div className={styles.modal}>
+          <Grid container className={styles.modal}>
             <Typography variant="h6" id="modal-title">
               Text in a modal
 
@@ -112,7 +111,7 @@ class ChallengeList extends Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
-          </div>
+          </Grid>
         </Modal>
       </Grid>
     );
@@ -120,3 +119,10 @@ class ChallengeList extends Component {
 }
 
 export default ChallengeList;
+
+
+
+// todo
+
+// add to balance
+// referee can close challenge

@@ -50,3 +50,7 @@
   filter: grayscale(100%);
 
 }
+
+:local(.textCenter) {
+  text-align: center;
+}

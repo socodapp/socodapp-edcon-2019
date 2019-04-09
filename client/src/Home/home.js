@@ -46,9 +46,9 @@ class Home extends Component {
       <Grid item className={styles.root}>
         <Grid container className={styles.header} justify="center">
 
-          <Grid item xs={6}>
+          <Grid item xs={6} className={styles.textCenter}>
             <Typography variant="h4">
-            Crowdfunded social challenges built on Ethereum.
+            Crowdfunded social commitments built on Ethereum.
             </Typography>
           </Grid>
           <Grid container justify="center">
