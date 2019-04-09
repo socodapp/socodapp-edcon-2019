@@ -1,10 +1,12 @@
 import * as contracts from "truffle-contract";
 import {web3Injected, currentProvider, activeUser} from "./metamaskUtils";
+import {ethers} from 'ethers';
 
 const definition = require('./contracts/SocialCommitment');
 const ERC20Definition = require('./contracts/SampleERC20');
 
 const DAI_ROPSTEN = '0xaD6D458402F60fD3Bd25163575031ACDce07538D';
+
 
 export const isReferee = (addr) => {
     if (web3Injected()) {
@@ -65,9 +67,8 @@ export const allowance = (addr) => {
         DAI.setProvider(currentProvider());
         return DAI.at(DAI_ROPSTEN)
           .then(contract => contract.allowance(activeUser(), addr))
-          .then(amount => amount.toString(10))
     } else {
-        return Promise.resolve('0')
+        return Promise.resolve(ethers.constants.Zero)
     }
 };
 
@@ -121,7 +122,6 @@ export const pledged = (addr) => {
         Commitment.setProvider(currentProvider());
         return Commitment.at(addr)
             .then(contract => contract.balances.call(activeUser()))
-            .then(amount => amount.toString(10))
     }
-    return Promise.resolve('0')
+    return Promise.resolve(ethers.constants.Zero)
 }
