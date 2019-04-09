@@ -5,7 +5,7 @@ import axios from 'axios';
 const registryAddr = "0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899"; // ropsten
 const apiKey = "YourApiKeyToken";
 // const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
-const apiUrl = "https://api-ropsten.etherscan.io/api" + "?apikey=" + apiKey
+const apiUrl = `https://api-ropsten.etherscan.io/api?apikey=${apiKey}`
 const logParams = "&module=logs&action=getLogs&fromBlock=0&toBlock=latest";
 
 const balanceParams = "&module=account&action=tokenbalance&tag=latest"
@@ -32,19 +32,19 @@ async function getBalance(accountAddr) {
 
 export async function getListing() {
   try {
-      const restUrl = apiUrl + logParams + "&address=" + registryAddr;
-      const json = await reqJSON(restUrl);
-      const items = json.map(function (item) {
-          const evArgs = decodeSocialCommitmentCreated(item.data);
-          return [evArgs[5], evArgs[6], evArgs[0]];
-      });
-      const pBalances = items.map(item => getBalance(item[2]));
-      const balances = await Promise.all(pBalances);
-      var retItems = []
-      items.forEach(
-          (item, i) => retItems.push([item[0], item[1], balances[i]])
-          );
-      return retItems;
+    const restUrl = apiUrl + logParams + "&address=" + registryAddr;
+    const json = await reqJSON(restUrl);
+    const items = json.map(function (item) {
+        const evArgs = decodeSocialCommitmentCreated(item.data);
+        return [evArgs[5], evArgs[6], evArgs[0]];
+    });
+    const pBalances = items.map(item => getBalance(item[2]));
+    const balances = await Promise.all(pBalances);
+    var retItems = []
+    items.forEach(
+        (item, i) => retItems.push({data: json, array: [item[0], item[1], balances[i]]})
+        );
+    return retItems;
   } catch (error) {
     console.error(error);
     return [];

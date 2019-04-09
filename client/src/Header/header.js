@@ -36,7 +36,7 @@ class Header extends Component {
             <Grid item>
               <Typography variant="h6" color="inherit">
                 <Button className={styles.navButton}>
-                  <NavLink to="/challenges">Challenges</NavLink>
+                  <NavLink to="/commitments">Commitments</NavLink>
                 </Button>
               </Typography>
             </Grid>

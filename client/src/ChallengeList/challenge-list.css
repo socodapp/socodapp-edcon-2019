@@ -1,6 +1,26 @@
 
- .root {
-    width: '100%';
-    max-width: 360;
-    background-color: white;
-  }
+
+:local(.container) {
+  margin-top: 100px;
+}
+
+
+:local(.list) {
+  text-align: left;
+}
+
+:local(.textRight) {
+  text-align: right;
+}
+
+
+:local(.modal) {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  margin: 5%;
+  box-shadow: 5;
+  padding: 30px;
+  outline: none,
+}
