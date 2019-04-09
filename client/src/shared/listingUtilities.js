@@ -4,8 +4,7 @@ import {web3Injected, currentProvider, activeUser} from "./metamaskUtils";
 const definition = require('./contracts/Listing.json');
 const commitment = require('./contracts/SocialCommitment.json');
 
-// const listingAddress = '0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899';
-const listingAddress = '0xc491586e0635F3bb6265158948485515E782555E';
+const listingAddress = '0xA95a5c20192B1F7bf5cAEa8628A61dD6D743F6b1';
 
 export const contractAddresses = async () => {
     if (web3Injected()) {
