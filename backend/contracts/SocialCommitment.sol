@@ -20,6 +20,7 @@ contract SocialCommitment is CommitmentPhases {
     address public referee;
     string public title;
     string public description;
+    bool public succeeded;
     mapping(address => uint256) balances;
 
     event PledgeReceived(address indexed backer, uint256 amount);
@@ -64,6 +65,7 @@ contract SocialCommitment is CommitmentPhases {
 
     function finalizeSucceed() public onlyReferee beforeDeadline notFinalized {
         dai.transfer(successBeneficiary, dai.balanceOf(address(this)));
+        succeeded = true;
         _finalize();
     }
 

@@ -13,8 +13,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x28c6acf7"
+      "type": "function"
     },
     {
       "constant": true,
@@ -28,8 +27,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x29dcb0cf"
+      "type": "function"
     },
     {
       "constant": true,
@@ -43,8 +41,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x3b1bebd1"
+      "type": "function"
     },
     {
       "constant": true,
@@ -58,8 +55,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x4a79d50c"
+      "type": "function"
     },
     {
       "constant": true,
@@ -73,8 +69,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x534db0e2"
+      "type": "function"
     },
     {
       "constant": true,
@@ -88,8 +83,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x7284e416"
+      "type": "function"
     },
     {
       "constant": true,
@@ -103,8 +97,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x82c54f98"
+      "type": "function"
     },
     {
       "constant": true,
@@ -118,8 +111,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0xb3f05b97"
+      "type": "function"
     },
     {
       "inputs": [
@@ -171,8 +163,7 @@
         }
       ],
       "name": "PledgeReceived",
-      "type": "event",
-      "signature": "0x8be1cd6b5b94a46676d2312706e389412016b3153fe3e45bea208b77d34caaef"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -184,8 +175,7 @@
         }
       ],
       "name": "Finalized",
-      "type": "event",
-      "signature": "0x41493253ae80c9f89e25283c36f67849365d0515134ce43de1314223cb6f7342"
+      "type": "event"
     },
     {
       "constant": false,
@@ -194,8 +184,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x88ffe867"
+      "type": "function"
     },
     {
       "constant": false,
@@ -204,8 +193,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x88ff410f"
+      "type": "function"
     },
     {
       "constant": false,
@@ -214,8 +202,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xd354aa27"
+      "type": "function"
     },
     {
       "constant": false,
@@ -224,8 +211,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x3ccfd60b"
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.5.6+commit.b259423e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"successBeneficiary\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"deadline\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"referee\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"title\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"challenger\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"description\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"failureBeneficiary\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"finalizeSucceed\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"pledge\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"finalized\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"finalizeFail\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_challenger\",\"type\":\"address\"},{\"name\":\"_successBeneficiary\",\"type\":\"address\"},{\"name\":\"_failureBeneficiary\",\"type\":\"address\"},{\"name\":\"_referee\",\"type\":\"address\"},{\"name\":\"_title\",\"type\":\"string\"},{\"name\":\"_description\",\"type\":\"string\"},{\"name\":\"_deadline\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"backer\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"PledgeReceived\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"success\",\"type\":\"bool\"}],\"name\":\"Finalized\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{\"constructor\":\"Initialise the SocialCommitment parameters\"}}},\"settings\":{\"compilationTarget\":{\"/Users/developer/Documents/socodapp-edcon-2019/backend/contracts/SocialCommitment.sol\":\"SocialCommitment\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/developer/Documents/socodapp-edcon-2019/backend/contracts/CommitmentPhases.sol\":{\"keccak256\":\"0x4a481ec92d6bd154a1eaa4b468bfeaf5dab9beb2214fba174059a4ee9cd1a89f\",\"urls\":[\"bzzr://1da59c0478dcf02e3ad80a3ce29b2a3a014d7647faa08e7d9cf93c4c563bcb2e\"]},\"/Users/developer/Documents/socodapp-edcon-2019/backend/contracts/SocialCommitment.sol\":{\"keccak256\":\"0x360a6d23afd80bc6df00d3a283abdbb07df4d2af8e593c938f1f1c93ce7076d6\",\"urls\":[\"bzzr://7662b805e9ed56508b85ba1c2de033331648d0940783c96e8d18ee3a8721d9c7\"]},\"openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0xc2a200a877c4a9b2475c246c54ffecc69ffde3e11af83319c63c2dc5458bac80\",\"urls\":[\"bzzr://c8876e2c39b60f155d748d71d715c8f3903fae5a405ac599adcb6ad2f9a583f9\"]},\"openzeppelin-solidity/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x59e7df16169a498cb8837963b2f5461d88e63bd1eb6c7d58b814d76b84ccbe61\",\"urls\":[\"bzzr://e572c9c4e02e37349702451bf3b5dcbbc86a19da5a51695b5b3e1bfe1e7825dc\"]}},\"version\":1}",
@@ -7627,7 +7613,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-09T12:30:06.409Z",
+  "updatedAt": "2019-04-09T13:52:49.955Z",
   "devdoc": {
     "methods": {}
   },
