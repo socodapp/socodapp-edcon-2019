@@ -8,7 +8,6 @@ import pink from '@material-ui/core/colors/pink';
 import red from '@material-ui/core/colors/red';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import 'typeface-montserrat';
 
 const muiTheme = createMuiTheme({
   fontFamily: 'montserrat',
