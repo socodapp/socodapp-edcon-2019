@@ -4,8 +4,16 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import styles from './deploy.css';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+import Input from '@material-ui/core/Input';
 
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -19,6 +27,44 @@ import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pic
 
 const steps = ['Specify a Referee', 'Commitment Details', 'Beneficiaries'];
 
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing.unit * 3,
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    height: '54px',
+    width: '40px',
+    marginTop: '16px',
+    marginBottom: '8px',
+    // padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
 
 class Deploy extends Component {
 
@@ -37,6 +83,11 @@ class Deploy extends Component {
 
       success_ben: "",
       failure_ben: "",
+
+      success_sben: "",
+      failure_sben: "",
+
+      currency: 'USD',
     };
   }
 
@@ -58,7 +109,19 @@ class Deploy extends Component {
 
   handleTimeChange = date => {
     this.setState({ com_time: date });
-  }
+  };
+
+  handleSRChange = success_sben => {
+    // console.log(success_sben.target.value);
+    this.setState({success_ben: success_sben.target.value})
+  };
+
+  handleFRChange = failure_sben => {
+    // console.log(failure_sben.target.value);
+    this.setState({failure_ben: failure_sben.target.value})
+  };
+
+
 
   handleSubmit = (event) => {
       const { success_ben, failure_ben, com_title, com_desc, referee_address } = this.state;
@@ -98,6 +161,9 @@ class Deploy extends Component {
 
   render() {
     const { com_date, com_time, activeStep, referee_name, referee_address } = this.state;
+
+    const { success_ben, success_sben } = this.state;
+    const { failure_ben, failure_sben } = this.state;
 
     return (
       
@@ -229,7 +295,7 @@ class Deploy extends Component {
                 
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={10}>
                 <TextField
                   required
                   id="beneficiary-success"
@@ -244,8 +310,24 @@ class Deploy extends Component {
                   onChange={(e) => this.setState({success_ben: e.target.value})}
                 />
               </Grid>
+              <Grid item xs={2}>
+                <NativeSelect
+                  value={this.state.success_sben}
+                  onChange={this.handleSRChange}
+                  input={<BootstrapInput name="age" id="age-customized-native-simple"/>}
+                >
+                  <option value={""} />
+                  <option value={"0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
+                  <option value={"0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
+                  <option value={"0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
+                  <option value={"0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
+                  <option value={"0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
+                  <option value={"0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
+                  <option value={"0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
+                </NativeSelect>
+              </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={10}>
                 <TextField
                   id="beneficiary-failure"
                   label="Failure Beneficiary"
@@ -259,7 +341,22 @@ class Deploy extends Component {
                   onChange={(e) => this.setState({failure_ben: e.target.value})}
                 />
               </Grid>
-
+              <Grid item xs={2}>
+                <NativeSelect
+                  value={this.state.failure_sben}
+                  onChange={this.handleFRChange}
+                  input={<BootstrapInput name="age" id="age-customized-native-simple"/>}
+                >
+                  <option value={""} />
+                  <option value={"0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
+                  <option value={"0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
+                  <option value={"0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
+                  <option value={"0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
+                  <option value={"0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
+                  <option value={"0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
+                  <option value={"0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
+                </NativeSelect>
+              </Grid>
             </Grid>
         </Grid>
         }
