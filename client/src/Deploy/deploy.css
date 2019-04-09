@@ -15,3 +15,33 @@
 :local(.menu) {
   width: 100;
 }
+
+:local(.layout) {
+  width: 'auto';
+  width: 600;
+
+}
+
+:local(.paper) {
+  margin-left: auto;
+  margin-right: auto;
+  width: 'auto';
+  margin-top: 400 * 3;
+  margin-bottom: 400 * 3;
+  padding: 400 * 2;
+  width: 600px;
+}
+
+:local(.stepper) {
+  padding: 400*3 0 400*5
+}
+
+:local(.buttons) {
+  display: 'flex';
+    justifyContent: 'flex-end';
+}
+
+:local(.button) {
+  marginTop: 400 * 3;
+    marginLeft: 400;
+}
