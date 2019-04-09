@@ -1,17 +1,9 @@
 
-.container {
-  background-color: black !important;
+:local(.logo) {
+  width: 100px;
+  height: 100px;
 }
 
-.title a {
-  margin: 30px;
-  text-decoration: none;
-}
-
-.navButton {
-  margin-left: 40px;
-  margin-right: 10px;
-}
 
 Button a {
   text-decoration: none;
