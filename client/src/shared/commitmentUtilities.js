@@ -36,3 +36,16 @@ export const transferDaiToContract = (addr) => {
             .then(contract => contract.pledge({from: activeUser()}))
     }
 };
+
+// Can only be called by the referee
+export const finalize = (addr, success) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => success ?
+                contract.finaliseSucceed({from: activeUser()}) :
+                contract.finaliseFail({from: activeUser()})
+            )
+    }
+};
