@@ -50,3 +50,15 @@ export async function getListing() {
     return [];
   }
 }
+
+export async function getSingleListing(address) {
+  try {
+    const restUrl = apiUrl + logParams + "&address=" + address;
+    const json = await reqJSON(restUrl);
+    return json
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
