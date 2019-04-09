@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import axios from 'axios';
+import { contractAddresses } from './listingUtilities.js';
 
 // const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
 const registryAddr = "0x023933Cb2E5Bc4cca75832730A37CA5Da6c28745"; // ropsten
@@ -34,6 +35,7 @@ export async function getListing() {
   try {
     const restUrl = apiUrl + logParams + "&address=" + registryAddr;
     const json = await reqJSON(restUrl);
+    const addrs = await contractAddresses();
     const items = json.map(function (item) {
         const evArgs = decodeSocialCommitmentCreated(item.data);
         return [evArgs[5], evArgs[6], evArgs[0]];
@@ -42,7 +44,7 @@ export async function getListing() {
     const balances = await Promise.all(pBalances);
     var retItems = []
     items.forEach(
-        (item, i) => retItems.push({data: json, array: [item[0], item[1], balances[i]]})
+        (item, i) => { console.log(item); retItems.push([item[0], item[1], balances[i], addrs[i]])}
         );
     return retItems;
   } catch (error) {
