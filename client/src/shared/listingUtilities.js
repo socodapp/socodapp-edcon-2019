@@ -2,8 +2,8 @@ import * as contracts from "truffle-contract";
 import {web3Injected, currentProvider, activeUser} from "./metamaskUtils";
 
 const definition = require('./contracts/Listing.json');
-const listingAddress = '0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899';
-// const listingAddress = '0x023933Cb2E5Bc4cca75832730A37CA5Da6c28745';
+// const listingAddress = '0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899';
+const listingAddress = '0x023933Cb2E5Bc4cca75832730A37CA5Da6c28745';
 
 export const contractAddresses = () => {
     if (web3Injected()) {
