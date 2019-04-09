@@ -1,15 +1,15 @@
 import { ethers } from 'ethers';
 import axios from 'axios';
 
-const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
-//const registryAddr = "0x988C0f9F747bD95C987D88205A33AB495235E9F4"; // ropsten
+// const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
+const registryAddr = "0x988C0f9F747bD95C987D88205A33AB495235E9F4"; // ropsten
 const apiKey = "YourApiKeyToken";
-const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
-//const apiUrl = "https://api-ropsten.etherscan.io/api" + "?apikey=" + apiKey
-const logParams = "&module=logs&action=getLogs&fromBlock=10706350&toBlock=latest";
+// const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
+const apiUrl = "https://api-ropsten.etherscan.io/api" + "?apikey=" + apiKey
+const logParams = "&module=logs&action=getLogs&fromBlock=0&toBlock=latest";
 
 const balanceParams = "&module=account&action=tokenbalance&tag=latest"
-const DAIContractAdrr = "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359"
+const DAIContractAdrr = "0x7d5E6A841Ec195F30911074d920EEc665A973A2D"
 
 async function reqJSON(url) {
   try {
