@@ -59,32 +59,39 @@ export const withdraw = (addr) => {
     }
 };
 
+export const allowance = (addr) => {
+    if (web3Injected()) {
+        const DAI = contracts(ERC20Definition);
+        DAI.setProvider(currentProvider());
+        DAI.at(DAI_ROPSTEN)
+          .then(contract => contract.allowance(activeUser(), addr))
+    } else {
+        return Promise.resolve(0)
+    }
+};
+
 const now = () => Math.floor((new Date()).getTime() / 1000);
 
 
-export const beforeDeadline = (addr) => {
+export const deadline = (addr) => {
     if (web3Injected()) {
         const Commitment = contracts(definition);
         Commitment.setProvider(currentProvider());
         return Commitment.at(addr)
-            .then(contract => contract.deadline.call())
-            .then(deadline => deadline.toNumber())
-            .then(deadline => deadline > now())
+          .then(contract => contract.deadline.call())
+          .then(deadline => deadline.toNumber())
     }
-    return Promise.resolve(false)
-};
+    return Promise.resolve(0)
+}
 
-export const afterDeadline = (addr) => {
-    if (web3Injected()) {
-        const Commitment = contracts(definition);
-        Commitment.setProvider(currentProvider());
-        return Commitment.at(addr)
-            .then(contract => contract.deadline.call())
-            .then(deadline => deadline.toNumber())
-            .then(deadline => deadline < now())
-    }
-    return Promise.resolve(false)
-};
+export const beforeDeadline = (addr) =>
+  deadline(addr)
+    .then(deadline => deadline > now());
+
+export const afterDeadline = (addr) =>
+  deadline(addr)
+    .then(deadline => deadline < now());
+
 
 export const finalized = (addr) => {
     if (web3Injected()) {
