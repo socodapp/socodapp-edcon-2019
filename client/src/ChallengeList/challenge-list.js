@@ -15,7 +15,7 @@ import { AccessAlarm, ThreeDRotation, ArrowForward } from '@material-ui/icons';
 
 import { ethers } from 'ethers';
 
-import getListing from '../shared/etherscanUtils.js'
+import {getListing} from '../shared/etherscanUtils.js'
 
 class ChallengeList extends Component {
   state = {

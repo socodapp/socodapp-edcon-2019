@@ -30,7 +30,7 @@ async function getBalance(accountAddr) {
     return await reqJSON(restUrl);
 }
 
-async function getListing() {
+export async function getListing() {
   try {
       const restUrl = apiUrl + logParams + "&address=" + registryAddr;
       const json = await reqJSON(restUrl);
@@ -50,5 +50,3 @@ async function getListing() {
     return [];
   }
 }
-
-export default getListing;
