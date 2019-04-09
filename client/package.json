@@ -18,7 +18,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gulp": "node ./node_modules/gulp/bin/gulp.js",
+    "deploy": "node ./node_modules/gulp/bin/gulp.js deploy",
+    "remove": "node ./node_modules/gulp/bin/gulp.js undeploy"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,5 +31,13 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "aws-sdk": "^2.437.0",
+    "del": "^4.1.0",
+    "gulp": "^4.0.0",
+    "gulp-awspublish": "^4.0.0",
+    "gulp-rev-all": "^1.0.0",
+    "through2": "^3.0.1"
+  }
 }

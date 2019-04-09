@@ -7,7 +7,39 @@
   flex-grow: 1;
 }
 
+:local(.root a) {
+  text-decoration: none;
+}
+
 :local(.paper){
   padding: 10px;
   text-align: 'center';
+}
+
+:local(.header) {
+  height: 500px;
+  margin-top: 200px;
+}
+
+:local(.slugLine) {
+  padding-top: 100px;
+  margin-bottom: 100px;
+}
+
+:local(.callToActionBtn) {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+:local(.teamSection) {
+  padding-top: 100px;
+}
+
+:local(.teamPhoto) {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+
 }
