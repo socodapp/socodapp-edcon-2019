@@ -33,11 +33,11 @@
   margin-bottom: 50px;
   padding: 30px;
   width: 600px;
-  min-height: 450px;
+  min-height: 480px;
 }
 
 :local(.form) {
-  min-height: 400px;
+  min-height: 430px;
   display: block;
 }
 
