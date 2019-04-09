@@ -5,15 +5,17 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import {ArrowForward, LaunchRounded} from '@material-ui/icons';
+import {LaunchRounded} from '@material-ui/icons';
 import {Grid, Paper, Divider, TextField, Button} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import { getListing } from '../shared/etherscanUtils.js';
-import { assignDaiToContract, transferDaiToContract, pledged, allowance } from '../shared/commitmentUtilities.js';
+import {getListing} from '../shared/etherscanUtils.js';
+import {assignDaiToContract, transferDaiToContract, pledged, allowance} from '../shared/commitmentUtilities.js';
 import Timeago from 'react-timeago';
+import {ethers} from 'ethers';
 
 class ChallengeList extends Component {
+  conversion = 1000; // accept DAI contributions down to three decimal places
 
   state = {
     checked: [0],
@@ -49,7 +51,7 @@ class ChallengeList extends Component {
 
   handlePledgeAmountChange = event => {
     this.setState({
-      pledgeAmount: event.target.value,
+      pledgeAmount: event.target.value * this.conversion,
     });
   };
 
@@ -65,8 +67,8 @@ class ChallengeList extends Component {
 
 
   makePledge(addr, amount) {
-
-    assignDaiToContract(addr, amount)
+    // please don't judge me
+    assignDaiToContract(addr, ethers.utils.bigNumberify(amount).mul(ethers.constants.WeiPerEther).div(this.conversion))
   }
 
   finalizePledge(addr) {
@@ -75,9 +77,12 @@ class ChallengeList extends Component {
 
   updatePledgedAmount(addr) {
     pledged(addr)
-      .then(amount => this.setState({pledged: amount}));
+      .then(amount => ethers.utils.bigNumberify(amount.toString()).mul(this.conversion))
+      .then(amount => this.setState({pledged: amount.div(ethers.constants.WeiPerEther).toString()}));
+
     allowance(addr)
-      .then(amount => this.setState({pendingPledgeAmount: amount}));
+      .then(amount => ethers.utils.bigNumberify(amount.toString()).mul(this.conversion))
+      .then(amount => this.setState({pendingPledgeAmount: amount.div(ethers.constants.WeiPerEther).toString()}));
   }
 
   async componentDidMount() {
@@ -98,14 +103,14 @@ class ChallengeList extends Component {
   }
 
   unixTimestamp(t) {
-    let dt = new Date(t*1000);
+    let dt = new Date(t * 1000);
     let yr = dt.getFullYear()
     let mo = dt.getMonth()
     let da = dt.getDay()
     let hr = dt.getHours();
     let m = "0" + dt.getMinutes();
     let s = "0" + dt.getSeconds();
-    return yr + '-' + mo + '-' + da + ' ' + hr+ ':' + m.substr(-2) + ':' + s.substr(-2) + ' UTC'
+    return yr + '-' + mo + '-' + da + ' ' + hr + ':' + m.substr(-2) + ':' + s.substr(-2) + ' UTC'
   }
 
   renderItems(items) {
@@ -116,36 +121,36 @@ class ChallengeList extends Component {
       return (
         <Grid key={i}>
           <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleItemSelect(arr[3])}>
-          <Grid item xs={3}>
-          <Typography variant="h6">
-              <Timeago date={new Date(arr[4]*1000)} />
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography variant="h6">
-              {arr[3].substring(0,8) + '...'}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6">
-              {arr[0]}
-            </Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography className={styles.textRight} variant="h6">
-              {arr[2]}
-            </Typography>
-          </Grid>
-          <Grid item xs={1}>
-          <ListItemSecondaryAction>
-            <IconButton aria-label="View">
-              <LaunchRounded />
-            </IconButton>
-          </ListItemSecondaryAction>
-          </Grid>
-        </ListItem>
-        <Divider />
-      </Grid>
+            <Grid item xs={3}>
+              <Typography variant="h6">
+                <Timeago date={new Date(arr[4] * 1000)}/>
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h6">
+                {arr[3].substring(0, 8) + '...'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                {arr[0]}
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography className={styles.textRight} variant="h6">
+                {ethers.utils.bigNumberify(arr[2]).mul(this.conversion).div(ethers.constants.WeiPerEther).toNumber() / this.conversion}
+              </Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <ListItemSecondaryAction>
+                <IconButton aria-label="View">
+                  <LaunchRounded/>
+                </IconButton>
+              </ListItemSecondaryAction>
+            </Grid>
+          </ListItem>
+          <Divider/>
+        </Grid>
 
       )
     });
@@ -194,20 +199,20 @@ class ChallengeList extends Component {
             <Grid container justify="space-between">
               <Grid item xs={14} sm={7}>
                 <Typography variant="h3" id="modal-title">
-                {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
+                  {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
                 </Typography>
                 <Typography className={styles.paddingTop} variant="h6" id="simple-modal-description">
-                    {this.state.isLoaded ? this.state.items[this.state.selectedItem][1] : null}
-                  </Typography>
+                  {this.state.isLoaded ? this.state.items[this.state.selectedItem][1] : null}
+                </Typography>
               </Grid>
-              <Grid item xs={14}  sm={4} className={styles.gridMargin}>
+              <Grid item xs={14} sm={4} className={styles.gridMargin}>
                 <Grid container>
                   <Typography variant="h4" id="modal-title">
-                    My Pledge: <b>{this.state.pledged}</b>
+                    My Pledge: <b>{this.state.pledged / this.conversion}</b>
                   </Typography>
                 </Grid>
                 <Grid container>
-                  ({this.state.pendingPledgeAmount} pending)
+                  ({this.state.pendingPledgeAmount / this.conversion} pending)
                 </Grid>
               </Grid>
             </Grid>
@@ -215,7 +220,8 @@ class ChallengeList extends Component {
               <Grid item xs={6}>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Commitment Deadline:</b> {this.state.isLoaded ? this.unixTimestamp(this.state.items[this.state.selectedItem][4]) : null}
+                    <b>Commitment
+                      Deadline:</b> {this.state.isLoaded ? this.unixTimestamp(this.state.items[this.state.selectedItem][4]) : null}
                   </Typography>
                 </Grid>
                 <Grid container>
@@ -225,7 +231,12 @@ class ChallengeList extends Component {
                 </Grid>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Total Funds: </b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][2] : null}
+
+                    <b>Total Funds: </b> {this.state.isLoaded ?
+                    ethers.utils.bigNumberify(this.state.items[this.state.selectedItem][2]).div(ethers.constants.WeiPerEther).toString() :
+                    null
+                  }
+
                   </Typography>
                   <Divider/>
                 </Grid>
@@ -239,7 +250,7 @@ class ChallengeList extends Component {
                     <TextField
                       id="outlined-number"
                       label="Amount"
-                      value={this.state.pledgeAmount}
+                      value={this.state.pledgeAmount / this.conversion}
                       onChange={(e) => this.handlePledgeAmountChange(e)}
                       type="number"
                       className={styles.textField}
@@ -259,19 +270,19 @@ class ChallengeList extends Component {
                     >
                       PLEDGE
                     </Button>
-                </Grid>
+                  </Grid>
 
-                {Number(this.state.pendingPledgeAmount) > 0 &&
-                (<Grid container className={styles.gridMargin}>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={() => this.finalizePledge(this.state.selectedContract)}
-                  >
-                    FINALIZE PLEDGES
-                  </Button>
-                </Grid>)
-                }
-              </Grid>
+                  {Number(this.state.pendingPledgeAmount) > 0 &&
+                  (<Grid container className={styles.gridMargin}>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={() => this.finalizePledge(this.state.selectedContract)}
+                    >
+                      FINALIZE PLEDGES
+                    </Button>
+                  </Grid>)
+                  }
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
