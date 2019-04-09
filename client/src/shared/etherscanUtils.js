@@ -4,7 +4,7 @@ import { contractAddresses } from './listingUtilities.js';
 import { deadline } from './commitmentUtilities.js'
 
 // const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
-const registryAddr = "0x023933Cb2E5Bc4cca75832730A37CA5Da6c28745"; // ropsten
+const registryAddr = "0xc491586e0635F3bb6265158948485515E782555E"; // ropsten
 const apiKey = "YourApiKeyToken";
 // const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
 const apiUrl = `https://api-ropsten.etherscan.io/api?apikey=${apiKey}`

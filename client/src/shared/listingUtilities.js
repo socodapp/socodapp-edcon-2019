@@ -5,7 +5,7 @@ const definition = require('./contracts/Listing.json');
 const commitment = require('./contracts/SocialCommitment.json');
 
 // const listingAddress = '0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899';
-const listingAddress = '0x023933Cb2E5Bc4cca75832730A37CA5Da6c28745';
+const listingAddress = '0xc491586e0635F3bb6265158948485515E782555E';
 
 export const contractAddresses = async () => {
     if (web3Injected()) {

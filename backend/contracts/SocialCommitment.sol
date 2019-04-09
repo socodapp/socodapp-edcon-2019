@@ -21,7 +21,7 @@ contract SocialCommitment is CommitmentPhases {
     string public title;
     string public description;
     bool public succeeded;
-    mapping(address => uint256) balances;
+    mapping(address => uint256) public balances;
 
     event PledgeReceived(address indexed backer, uint256 amount);
 
