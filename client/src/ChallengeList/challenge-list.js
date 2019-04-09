@@ -65,7 +65,6 @@ class ChallengeList extends Component {
             </ListItemSecondaryAction>
           </ListItem>
         ));
-    console.log(result);
     return result;
 }
 
