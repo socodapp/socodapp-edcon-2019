@@ -3,45 +3,18 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import styles from './deploy.css';
-import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import withStyles from '@material-ui/core/styles/withStyles';
 import {deployCommitment } from '../shared/listingUtilities';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
-
-import ClassNames from 'classnames';
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
 
 const steps = ['Specify a Referee', 'Commitment Details', 'Beneficiaries'];
 
@@ -112,23 +85,6 @@ class Deploy extends Component {
       )
   };
 
-  renderStepOne(step) {
-     
-  }
-
-  renderStepTwo(step) {
-
-  }
-
-  renderStepThree(step) {
-
-    if (step === 2) {
-
-    } else {
-
-    }
-  }
-
   get deadline() {
     const deadline = new Date(
       this.state.com_date.getFullYear(),
@@ -142,9 +98,7 @@ class Deploy extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const { activeStep } = this.state;
-
     const { selectedDate } = this.state;
 
     return (
@@ -163,7 +117,7 @@ class Deploy extends Component {
           </Stepper>
         
         <Grid container className={styles.form}>
-        {activeStep == 0 &&
+        {activeStep === 0 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6">
               Specify a Referee
@@ -192,7 +146,7 @@ class Deploy extends Component {
         </Grid>
         }
 
-        {activeStep == 1 &&
+        {activeStep === 1 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Commitment Details
@@ -257,7 +211,7 @@ class Deploy extends Component {
         </Grid>
         }
 
-        {activeStep == 2 &&
+        {activeStep === 2 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Shipping address
@@ -300,13 +254,13 @@ class Deploy extends Component {
         </Grid>
 
         <Grid container className={styles.buttons}>
-          {activeStep != 0 &&
+          {activeStep !== 0 &&
             <Button onClick={this.handleBack} className={styles.button} >
               Back
             </Button>
           }
 
-          {activeStep != 2 &&
+          {activeStep !== 2 &&
             <Button
               variant="contained"
               color="primary"
@@ -317,7 +271,7 @@ class Deploy extends Component {
             </Button>
           }
 
-          {activeStep == 2 &&
+          {activeStep === 2 &&
             <Button variant="contained" color="secondary" className={styles.button} onClick={this.handleSubmit}>DEPLOY</Button>
           }
         </Grid>
