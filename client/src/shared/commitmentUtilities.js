@@ -58,3 +58,61 @@ export const withdraw = (addr) => {
             .then(contract => contract.withdraw({from: activeUser()}))
     }
 };
+
+const now = () => Math.floor((new Date()).getTime() / 1000);
+
+
+export const beforeDeadline = (addr) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.deadline.call())
+            .then(deadline => deadline.toNumber())
+            .then(deadline => deadline > now())
+    }
+    return Promise.resolve(false)
+};
+
+export const afterDeadline = (addr) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.deadline.call())
+            .then(deadline => deadline.toNumber())
+            .then(deadline => deadline < now())
+    }
+    return Promise.resolve(false)
+};
+
+export const finalized = (addr) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.finalized.call())
+    }
+    return Promise.resolve(false)
+};
+
+
+export const succeeded = (addr) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.succeeded.call())
+    }
+    return Promise.resolve(false)
+};
+
+export const pledged = (addr) => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.balances.call(activeUser()))
+    }
+    return Promise.resolve(0)
+}
