@@ -59,6 +59,7 @@ class ChallengeList extends Component {
       b = new Date(b[4])
       return b > a ? -1 : b < a ? 1 : 0;
     })
+
     this.setState({items: sorted})
   }
 
@@ -190,13 +191,16 @@ class ChallengeList extends Component {
           onClose={this.handleClose}
         >
           <Grid container className={styles.modal} justify="center">
-            <Grid container>
-              <Grid item xs={6}>
+            <Grid container justify="space-between">
+              <Grid item xs={14} sm={7}>
                 <Typography variant="h3" id="modal-title">
                 {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
                 </Typography>
+                <Typography className={styles.paddingTop} variant="h6" id="simple-modal-description">
+                    {this.state.isLoaded ? this.state.items[this.state.selectedItem][1] : null}
+                  </Typography>
               </Grid>
-              <Grid item xs={5} className={styles.gridMargin}>
+              <Grid item xs={14}  sm={4} className={styles.gridMargin}>
                 <Grid container>
                   <Typography variant="h4" id="modal-title">
                     My Pledge: <b>{this.state.pledged}</b>
@@ -207,8 +211,8 @@ class ChallengeList extends Component {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid container spacing={24}>
-              <Grid item xs={6} sm={6}>
+            <Grid container>
+              <Grid item xs={6}>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
                     <b>Commitment Deadline:</b> {this.state.isLoaded ? this.unixTimestamp(this.state.items[this.state.selectedItem][4]) : null}
@@ -221,20 +225,12 @@ class ChallengeList extends Component {
                 </Grid>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Commitment
-                      Description:</b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][1] : null}
-                  </Typography>
-                  <Divider/>
-                </Grid>
-                <Grid container>
-                  <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Contract
-                      Balance: </b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][2] : null}
+                    <b>Total Funds: </b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][2] : null}
                   </Typography>
                   <Divider/>
                 </Grid>
               </Grid>
-              <Grid item xs={6}>
+              <Grid container>
                 <Grid container>
                   <b>Pledge commitment in DAI:</b>
                 </Grid>
