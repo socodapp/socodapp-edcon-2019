@@ -22,6 +22,8 @@ import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 
+import ClassNames from 'classnames';
+
 const currencies = [
   {
     value: 'USD',
@@ -41,7 +43,7 @@ const currencies = [
   },
 ];
 
-const steps = ['Specify a Referee', 'Commitment Details', 'Beneficieries'];
+const steps = ['Specify a Referee', 'Commitment Details', 'Beneficiaries'];
 
 
 class Deploy extends Component {
@@ -110,6 +112,23 @@ class Deploy extends Component {
       )
   };
 
+  renderStepOne(step) {
+     
+  }
+
+  renderStepTwo(step) {
+
+  }
+
+  renderStepThree(step) {
+
+    if (step === 2) {
+
+    } else {
+
+    }
+  }
+
   get deadline() {
     const deadline = new Date(
       this.state.com_date.getFullYear(),
@@ -129,8 +148,8 @@ class Deploy extends Component {
     const { selectedDate } = this.state;
 
     return (
-
-      <Grid container wrap="nowrap" >
+      
+      <Grid container wrap="nowrap" className={styles.container} >
         <Paper className={styles.paper}>
           <Typography component="h1" variant="h4" align="center">
             New commitment
@@ -142,45 +161,14 @@ class Deploy extends Component {
               </Step>
             ))}
           </Stepper>
-
-          {/*
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Your new commitment is being prepared...
-              </Typography>
-              <Typography variant="subtitle1">
-                Blah blah.. Click <a>here</a> to see your commitment.
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {getStepContent(activeStep, this.state)}
-              <div className={styles.buttons}>
-                {activeStep !== 0 && (
-                  <Button onClick={this.handleBack} className={styles.button}>
-                    Back
-                  </Button>
-                )}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={styles.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Deploy' : 'Next'}
-                </Button>
-              </div>
-            </React.Fragment>
-          )}
-          */}
-
-        <div id="refereeForm">
-          <React.Fragment>
-            <Typography variant="h6" gutterBottom>
+        
+        <Grid container className={styles.form}>
+        {activeStep == 0 &&
+        <Grid container className={styles.plz}>
+            <Typography variant="h6">
               Specify a Referee
             </Typography>
-            <Typography variant="body1" gutterBottom spacing={24}>
+            <Typography variant="body1" spacing={24}>
               The address of the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
@@ -201,11 +189,11 @@ class Deploy extends Component {
               </Grid>
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
 
-        <div id="commitmentForm">
-          <React.Fragment>
+        {activeStep == 1 &&
+        <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Commitment Details
             </Typography>
@@ -266,11 +254,11 @@ class Deploy extends Component {
 
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
 
-        <div id="beneficieriesForm">
-          <React.Fragment>
+        {activeStep == 2 &&
+        <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Shipping address
             </Typography>
@@ -307,11 +295,31 @@ class Deploy extends Component {
               </Grid>
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
+        </Grid>
 
-        <Grid item>
-          <Button variant="contained" color="secondary" onClick={this.handleSubmit}>DEPLOY</Button>
+        <Grid container className={styles.buttons}>
+          {activeStep != 0 &&
+            <Button onClick={this.handleBack} className={styles.button} >
+              Back
+            </Button>
+          }
+
+          {activeStep != 2 &&
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleNext}
+              className={styles.button}
+              >
+              Next
+            </Button>
+          }
+
+          {activeStep == 2 &&
+            <Button variant="contained" color="secondary" className={styles.button} onClick={this.handleSubmit}>DEPLOY</Button>
+          }
         </Grid>
         </Paper>
       </Grid>
