@@ -9,7 +9,7 @@ const apiUrl = "https://api-ropsten.etherscan.io/api" + "?apikey=" + apiKey
 const logParams = "&module=logs&action=getLogs&fromBlock=0&toBlock=latest";
 
 const balanceParams = "&module=account&action=tokenbalance&tag=latest"
-const DAIContractAdrr = "0x7d5E6A841Ec195F30911074d920EEc665A973A2D"
+const DAIContractAdrr = "0xaD6D458402F60fD3Bd25163575031ACDce07538D"
 
 async function reqJSON(url) {
   try {
