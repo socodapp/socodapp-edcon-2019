@@ -4,8 +4,6 @@
 }
 
 :local(.textField) {
-  margin-left: 20px !important;
-  margin-right: 20px;
 }
 
 :local(.dense) {
@@ -26,9 +24,9 @@
   margin-left: auto;
   margin-right: auto;
   width: 'auto';
-  margin-top: 400 * 3;
-  margin-bottom: 400 * 3;
-  padding: 400 * 2;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  padding: 30px;
   width: 600px;
 }
 

@@ -17,10 +17,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import RefereeForm from './RefereeForm';
-import CommitmentForm from './CommitmentForm';
-import BeneficieriesForm from './BeneficieriesForm';
-
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
@@ -46,18 +42,6 @@ const currencies = [
 
 const steps = ['Specify a Referee', 'Commitment Details', 'Beneficieries'];
 
-function getStepContent(step, state) {
-  switch (step) {
-    case 0:
-      return <RefereeForm state={state}/>;
-    case 1:
-      return <CommitmentForm />;
-    case 2:
-      return <BeneficieriesForm />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
 class Deploy extends Component {
 
@@ -70,8 +54,8 @@ class Deploy extends Component {
 
       com_title: "",
       com_desc: "",
-      com_date: null,
-      com_time: null,
+      com_date: new Date(),
+      com_time: new Date(),
       
       success_ben: "",
       failure_ben: "",
@@ -104,13 +88,29 @@ class Deploy extends Component {
     });
   };
   
-
+  
   handleDateChange = date => {
-    this.setState({ selectedDate: date });
+    this.setState({ com_date: date });
   };
+
+  handleTimeChange = date => {
+    this.setState({ com_time: date });
+  }
 
   handleSubmit = (event) => {
     console.log(this.state);
+  }
+
+  get deadline() {
+    const deadline = new Date(
+      this.state.com_date.getFullYear(),
+      this.state.com_date.getMonth(),
+      this.state.com_date.getDate(),
+      this.state.com_time.getHours(),
+      this.state.com_time.getMinutes(),
+      this.state.com_time.getSeconds()
+    )
+    return Math.floor(deadline.getTime() / 1000);
   }
 
   render() {
@@ -121,7 +121,7 @@ class Deploy extends Component {
 
     return (
 
-      <Grid container>
+      <Grid container wrap="nowrap" >
         <Paper className={styles.paper}>
           <Typography component="h1" variant="h4" align="center">
             New commitment
@@ -133,6 +133,7 @@ class Deploy extends Component {
               </Step>
             ))}
           </Stepper>
+
           {/*
           {activeStep === steps.length ? (
             <React.Fragment>
