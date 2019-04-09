@@ -63,10 +63,11 @@ export const allowance = (addr) => {
     if (web3Injected()) {
         const DAI = contracts(ERC20Definition);
         DAI.setProvider(currentProvider());
-        DAI.at(DAI_ROPSTEN)
+        return DAI.at(DAI_ROPSTEN)
           .then(contract => contract.allowance(activeUser(), addr))
+          .then(amount => amount.toString(10))
     } else {
-        return Promise.resolve(0)
+        return Promise.resolve('0')
     }
 };
 
@@ -120,6 +121,7 @@ export const pledged = (addr) => {
         Commitment.setProvider(currentProvider());
         return Commitment.at(addr)
             .then(contract => contract.balances.call(activeUser()))
+            .then(amount => amount.toString(10))
     }
-    return Promise.resolve(0)
+    return Promise.resolve('0')
 }
