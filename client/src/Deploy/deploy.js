@@ -81,8 +81,11 @@ class Deploy extends Component {
       com_date: new Date(),
       com_time: new Date(),
 
-      success_ben: "",
-      failure_ben: "",
+
+      success_ben_name: "",
+      success_ben_address: null,
+      failure_ben_name: "",
+      failure_ben_address: null,
 
       success_sben: "",
       failure_sben: "",
@@ -111,24 +114,28 @@ class Deploy extends Component {
     this.setState({ com_time: date });
   };
 
-  handleSRChange = success_sben => {
-    // console.log(success_sben.target.value);
-    this.setState({success_ben: success_sben.target.value})
+  handleSRChange = event => {
+    const value = event.target.value;
+    const success_ben_name = value.split(';')[0];
+    const success_ben_address = value.split(';')[1];
+    this.setState({success_ben_name, success_ben_address})
   };
 
-  handleFRChange = failure_sben => {
-    // console.log(failure_sben.target.value);
-    this.setState({failure_ben: failure_sben.target.value})
+  handleFRChange = event => {
+    const value = event.target.value;
+    const failure_ben_name = value.split(';')[0];
+    const failure_ben_address = value.split(';')[1];
+    this.setState({failure_ben_name, failure_ben_address})
   };
 
 
 
   handleSubmit = (event) => {
-      const { success_ben, failure_ben, com_title, com_desc, referee_address } = this.state;
+      const { success_ben_address, failure_ben_address, com_title, com_desc, referee_address } = this.state;
       console.log(this.state);
       deployCommitment(
-        success_ben,
-          failure_ben,
+        success_ben_address,
+          failure_ben_address,
           referee_address,
           com_title,
           com_desc,
@@ -145,7 +152,29 @@ class Deploy extends Component {
         ensResolveName(name)
             .then(addr => this.setState({referee_address: addr}))
     }
-  }
+  };
+
+  updateSuccessBenName = (event) => {
+    const name = event.target.value;
+    this.setState(({success_ben_name: name}));
+    if(isEthereumAddress(name)) {
+      this.setState({success_ben_address: name})
+    } else {
+      ensResolveName(name)
+        .then(addr => this.setState({success_ben_address: addr}))
+    }
+  };
+
+  updateFailureBenName = (event) => {
+    const name = event.target.value;
+    this.setState(({failure_ben_name: name}));
+    if(isEthereumAddress(name)) {
+      this.setState({failure_ben_address: name})
+    } else {
+      ensResolveName(name)
+        .then(addr => this.setState({failure_ben_address: addr}))
+    }
+  };
 
   get deadline() {
     const deadline = new Date(
@@ -162,11 +191,8 @@ class Deploy extends Component {
   render() {
     const { com_date, com_time, activeStep, referee_name, referee_address } = this.state;
 
-    const { success_ben, success_sben } = this.state;
-    const { failure_ben, failure_sben } = this.state;
-
     return (
-      
+
       <Grid container wrap="nowrap" className={styles.container} >
         <Paper className={styles.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -179,7 +205,7 @@ class Deploy extends Component {
               </Step>
             ))}
           </Stepper>
-        
+
         <Grid container className={styles.form}>
         {activeStep === 0 &&
         <Grid container className={styles.plz}>
@@ -292,7 +318,7 @@ class Deploy extends Component {
             </Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
-                
+
               </Grid>
 
               <Grid item xs={10}>
@@ -306,8 +332,8 @@ class Deploy extends Component {
                   margin="normal"
                   variant="outlined"
                   helperText="The beneficiary that will receive the money if you succeed at the challenge"
-                  value={this.state.success_ben}
-                  onChange={(e) => this.setState({success_ben: e.target.value})}
+                  value={this.state.success_ben_name}
+                  onChange={this.updateSuccessBenName}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -317,13 +343,13 @@ class Deploy extends Component {
                   input={<BootstrapInput name="age" id="age-customized-native-simple"/>}
                 >
                   <option value={""} />
-                  <option value={"0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
-                  <option value={"0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
-                  <option value={"0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
-                  <option value={"0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
-                  <option value={"0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
-                  <option value={"0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
-                  <option value={"0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
+                  <option value={"Giveth;0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
+                  <option value={"The Water Project;0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
+                  <option value={"GiveDirectly;0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
+                  <option value={"Unsung.org;0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
+                  <option value={"Breastcancersupport.org.uk;0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
+                  <option value={"350.org;0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
+                  <option value={"Burn Address;0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
                 </NativeSelect>
               </Grid>
 
@@ -337,8 +363,8 @@ class Deploy extends Component {
                   margin="normal"
                   variant="outlined"
                   helperText="The beneficiary that will receive the money if you fail at the challenge"
-                  value={this.state.failure_ben}
-                  onChange={(e) => this.setState({failure_ben: e.target.value})}
+                  value={this.state.failure_ben_name}
+                  onChange={this.updateFailureBenName}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -348,13 +374,13 @@ class Deploy extends Component {
                   input={<BootstrapInput name="age" id="age-customized-native-simple"/>}
                 >
                   <option value={""} />
-                  <option value={"0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
-                  <option value={"0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
-                  <option value={"0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
-                  <option value={"0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
-                  <option value={"0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
-                  <option value={"0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
-                  <option value={"0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
+                  <option value={"Giveth;0x30f938fED5dE6e06a9A7Cd2Ac3517131C317B1E7"}>Giveth - 0x30f9...E7</option>
+                  <option value={"The Water Project;0xf624cd0f2e74fb1f936e9ae63d5257ed41f630a7"}>The Water Project - 0xf624...a7</option>
+                  <option value={"GiveDirectly;0xc7464dbcA260A8faF033460622B23467Df5AEA42"}>GiveDirectly - 0xc7464...42</option>
+                  <option value={"Unsung.org;0x02a13ED1805624738Cc129370Fee358ea487B0C6"}>Unsung.org - 0x02a1...C6</option>
+                  <option value={"Breastcancersupport.org.uk;0x6e4c6adfa15cada2699fd2c16290ea1f71d0f9d7"}>Breastcancersupport.org.uk - 0x6e4c...d7</option>
+                  <option value={"350.org;0x50990F09d4f0cb864b8e046e7edC749dE410916b"}>350.org - 0x5099...6b</option>
+                  <option value={"Burn Address;0x0000000000000000000000000000000000000000"}>Burn Address - 0x0000...00</option>
                 </NativeSelect>
               </Grid>
             </Grid>
@@ -382,7 +408,11 @@ class Deploy extends Component {
           }
 
           {activeStep === 2 &&
-            <Button variant="contained" color="secondary" className={styles.button} onClick={this.handleSubmit}>DEPLOY</Button>
+            <Button variant="contained" color="secondary" className={styles.button}
+                    onClick={this.handleSubmit}
+                    disabled={this.state.success_ben_address === null || this.state.failure_ben_address === null}>
+              DEPLOY
+            </Button>
           }
         </Grid>
         </Paper>
