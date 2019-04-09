@@ -17,10 +17,6 @@ import { ethers } from 'ethers';
 
 import getListing from '../shared/etherscanUtils.js'
 
-const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064";
-const apiKey = "YourApiKeyToken";
-const apiUrl = "https://api-kovan.etherscan.io/api?module=logs&action=getLogs&fromBlock=10706350&toBlock=latest";
-
 class ChallengeList extends Component {
   state = {
     checked: [0],
