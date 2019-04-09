@@ -4,8 +4,6 @@
 }
 
 :local(.textField) {
-  margin-left: 20px !important;
-  margin-right: 20px;
 }
 
 :local(.dense) {
@@ -14,4 +12,34 @@
 
 :local(.menu) {
   width: 100;
+}
+
+:local(.layout) {
+  width: 'auto';
+  width: 600;
+
+}
+
+:local(.paper) {
+  margin-left: auto;
+  margin-right: auto;
+  width: 'auto';
+  margin-top: 20px;
+  margin-bottom: 50px;
+  padding: 30px;
+  width: 600px;
+}
+
+:local(.stepper) {
+  padding: 400*3 0 400*5
+}
+
+:local(.buttons) {
+  display: 'flex';
+    justifyContent: 'flex-end';
+}
+
+:local(.button) {
+  marginTop: 400 * 3;
+    marginLeft: 400;
 }

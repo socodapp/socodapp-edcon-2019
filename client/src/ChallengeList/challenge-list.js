@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
+import { AccessAlarm, ThreeDRotation, ArrowForward } from '@material-ui/icons';
 
 import { ethers } from 'ethers';
 
@@ -60,7 +61,7 @@ class ChallengeList extends Component {
             <ListItemText primary={`Balance ${arr[2]}`} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
-                <CommentIcon />
+                <ArrowForward />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
