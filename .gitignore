@@ -8,3 +8,5 @@
 backend/build
 
 .env
+# package-lock
+package-lock.json
