@@ -14,7 +14,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 
 import { ethers } from 'ethers';
 
-const registryAddr = "0x223f38d48dA35f904D13Ce7E969353cBF0A6267E";
+const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064";
 const apiKey = "YourApiKeyToken";
 const apiUrl = "https://api-kovan.etherscan.io/api?module=logs&action=getLogs&fromBlock=10706350&toBlock=latest";
 
@@ -84,14 +84,10 @@ class ChallengeList extends Component {
               tabIndex={-1}
               disableRipple
             />
-            <ListItemText primary={`Contract Address ${arr[0]}`} />
-            <ListItemText primary={`Challenger ${arr[1]}`} />
-            <ListItemText primary={`Success Beneficiary ${arr[2]}`} />
-            <ListItemText primary={`Failure Beneficiary ${arr[3]}`} />
-            <ListItemText primary={`Referee ${arr[4]}`} />
-            <ListItemText primary={`Title ${arr[5]}`} />
-            <ListItemText primary={`Description ${arr[6]}`} />
-            <ListItemText primary={`Deadline ${arr[7]}`} />
+            <ListItemText primary={`Title ${arr[6]}`} />
+            <ListItemText primary={`Description ${arr[7]}`} />
+            <ListItemText primary={`Deadline ${arr[8]}`} />
+            <ListItemText primary={`Balance 42`} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
                 <CommentIcon />
@@ -104,4 +100,11 @@ class ChallengeList extends Component {
   }
 }
 
+            /*
+            <ListItemText primary={`Contract Address ${arr[0]}`} />
+            <ListItemText primary={`Challenger ${arr[1]}`} />
+            <ListItemText primary={`Success Beneficiary ${arr[2]}`} />
+            <ListItemText primary={`Failure Beneficiary ${arr[3]}`} />
+            <ListItemText primary={`Referee ${arr[4]}`} />
+            */
 export default ChallengeList;
