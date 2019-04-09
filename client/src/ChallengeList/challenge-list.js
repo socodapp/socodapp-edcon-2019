@@ -15,6 +15,7 @@ import Timeago from 'react-timeago';
 import {ethers} from 'ethers';
 
 class ChallengeList extends Component {
+  conversion = 1000; // accept DAI contributions down to three decimal places
 
   state = {
     checked: [0],
@@ -50,7 +51,7 @@ class ChallengeList extends Component {
 
   handlePledgeAmountChange = event => {
     this.setState({
-      pledgeAmount: event.target.value,
+      pledgeAmount: event.target.value * this.conversion,
     });
   };
 
@@ -67,7 +68,7 @@ class ChallengeList extends Component {
 
   makePledge(addr, amount) {
     // please don't judge me
-    assignDaiToContract(addr, ethers.utils.bigNumberify(amount * 1000).mul(ethers.constants.WeiPerEther).div(1000))
+    assignDaiToContract(addr, ethers.utils.bigNumberify(amount).mul(ethers.constants.WeiPerEther).div(this.conversion))
   }
 
   finalizePledge(addr) {
@@ -76,11 +77,11 @@ class ChallengeList extends Component {
 
   updatePledgedAmount(addr) {
     pledged(addr)
-      .then(amount => ethers.utils.bigNumberify(amount.toString()))
+      .then(amount => ethers.utils.bigNumberify(amount.toString()).mul(this.conversion))
       .then(amount => this.setState({pledged: amount.div(ethers.constants.WeiPerEther).toString()}));
 
     allowance(addr)
-      .then(amount => ethers.utils.bigNumberify(amount.toString()))
+      .then(amount => ethers.utils.bigNumberify(amount.toString()).mul(this.conversion))
       .then(amount => this.setState({pendingPledgeAmount: amount.div(ethers.constants.WeiPerEther).toString()}));
   }
 
@@ -137,7 +138,7 @@ class ChallengeList extends Component {
             </Grid>
             <Grid item xs={3}>
               <Typography className={styles.textRight} variant="h6">
-                {ethers.utils.bigNumberify(arr[2]).div(ethers.constants.WeiPerEther).toString()}
+                {ethers.utils.bigNumberify(arr[2]).mul(this.conversion).div(ethers.constants.WeiPerEther).toNumber() / this.conversion}
               </Typography>
             </Grid>
             <Grid item xs={1}>
@@ -207,11 +208,11 @@ class ChallengeList extends Component {
               <Grid item xs={14} sm={4} className={styles.gridMargin}>
                 <Grid container>
                   <Typography variant="h4" id="modal-title">
-                    My Pledge: <b>{this.state.pledged}</b>
+                    My Pledge: <b>{this.state.pledged / this.conversion}</b>
                   </Typography>
                 </Grid>
                 <Grid container>
-                  ({this.state.pendingPledgeAmount} pending)
+                  ({this.state.pendingPledgeAmount / this.conversion} pending)
                 </Grid>
               </Grid>
             </Grid>
@@ -249,7 +250,7 @@ class ChallengeList extends Component {
                     <TextField
                       id="outlined-number"
                       label="Amount"
-                      value={this.state.pledgeAmount}
+                      value={this.state.pledgeAmount / this.conversion}
                       onChange={(e) => this.handlePledgeAmountChange(e)}
                       type="number"
                       className={styles.textField}
