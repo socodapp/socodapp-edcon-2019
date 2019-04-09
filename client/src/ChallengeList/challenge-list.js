@@ -44,20 +44,11 @@ class ChallengeList extends Component {
 
   async componentDidMount() {
     const items = await getListing();
-    console.log("items");
-    console.log(items);
     this.setState({isLoaded: true, items: items});
   }
 
-  render() {
-
-    // TODO write a nice UI
-    const items = this.state.items;
-    console.log("render items");
-    console.log(items);
-    return (
-      <List className={styles.root}>
-        {items.map(arr => (
+  renderItems(items) {
+  const result = items.map(arr => (
           <ListItem key={arr[0]} role={undefined} dense button onClick={this.handleToggle(arr[0])}>
             <Checkbox
               checked={this.state.checked.indexOf(arr[0]) !== -1}
@@ -66,25 +57,26 @@ class ChallengeList extends Component {
             />
             <ListItemText primary={`Title ${arr[0]}`} />
             <ListItemText primary={`Description ${arr[1]}`} />
-            <ListItemText primary={`Deadline ${arr[2]}`} />
-            <ListItemText primary={`Balance 42`} />
+            <ListItemText primary={`Balance ${arr[2]}`} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
                 <CommentIcon />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
-        ))}
+        ));
+    console.log(result);
+    return result;
+}
+
+  render() {
+    // TODO write a nice UI
+    return (
+      <List className={styles.root}>
+        {this.renderItems(this.state.items)}
       </List>
     );
   }
 }
 
-            /*
-            <ListItemText primary={`Contract Address ${arr[0]}`} />
-            <ListItemText primary={`Challenger ${arr[1]}`} />
-            <ListItemText primary={`Success Beneficiary ${arr[2]}`} />
-            <ListItemText primary={`Failure Beneficiary ${arr[3]}`} />
-            <ListItemText primary={`Referee ${arr[4]}`} />
-            */
 export default ChallengeList;
