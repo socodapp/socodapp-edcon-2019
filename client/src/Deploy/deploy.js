@@ -167,10 +167,10 @@ class Deploy extends Component {
         {activeStep == 0 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6">
-              Specify a Referee
+              Specify A Referee
             </Typography>
             <Typography variant="body1" spacing={24}>
-              The address of the referee who will assess the challenge's completion.
+              Please provide the ethereum address for the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
@@ -225,12 +225,16 @@ class Deploy extends Component {
                   fullWidth
                   className={styles.textField}
                   margin="normal"
-                  helperText="hello"
+                  helperText="Detailed description about the commitment, and what conditions you must meet to succeed at it."
                   variant="outlined"
                   value={this.state.com_desc}
                   onChange={(e) => this.setState({com_desc: e.target.value})}
                 />
               </Grid>
+
+              <Typography variant="subtitle1" >
+                Contract Expiry Date
+              </Typography>
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
@@ -261,9 +265,13 @@ class Deploy extends Component {
         {activeStep == 2 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
-              Shipping address
+              Pick The Beneficiaries
             </Typography>
             <Grid container spacing={24}>
+              <Grid item xs={12}>
+                
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
