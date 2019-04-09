@@ -17,6 +17,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "truffle-contract": "^4.0.11",
     "typeface-montserrat": "0.0.54",
     "xmlhttprequest": "^1.8.0"
   },

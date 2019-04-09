@@ -16,6 +16,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import withStyles from '@material-ui/core/styles/withStyles';
+import {deployCommitment } from '../shared/listingUtilities';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -46,7 +47,7 @@ const steps = ['Specify a Referee', 'Commitment Details', 'Beneficieries'];
 class Deploy extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       activeStep: 0,
@@ -56,7 +57,7 @@ class Deploy extends Component {
       com_desc: "",
       com_date: new Date(),
       com_time: new Date(),
-      
+
       success_ben: "",
       failure_ben: "",
 
@@ -81,14 +82,14 @@ class Deploy extends Component {
       activeStep: 0,
     });
   };
-  
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
   };
-  
-  
+
+
   handleDateChange = date => {
     this.setState({ com_date: date });
   };
@@ -98,9 +99,16 @@ class Deploy extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log(this.state);
-    console.log(this.deadline);
-  }
+      const { success_ben, failure_ben, com_title, com_desc, referee_address } = this.state;
+      deployCommitment(
+        success_ben,
+          failure_ben,
+          referee_address,
+          com_title,
+          com_desc,
+          this.deadline
+      )
+  };
 
   get deadline() {
     const deadline = new Date(
@@ -234,7 +242,7 @@ class Deploy extends Component {
                   onChange={(e) => this.setState({com_desc: e.target.value})}
                 />
               </Grid>
-              
+
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
                   <DatePicker
@@ -255,7 +263,7 @@ class Deploy extends Component {
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
-              
+
 
             </Grid>
           </React.Fragment>
