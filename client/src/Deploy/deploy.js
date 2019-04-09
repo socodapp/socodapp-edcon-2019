@@ -25,6 +25,8 @@ import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 
+import { Done } from '@material-ui/icons';
+
 const steps = ['Specify a Referee', 'Commitment Details', 'Beneficiaries'];
 
 const BootstrapInput = withStyles(theme => ({
@@ -213,7 +215,7 @@ class Deploy extends Component {
               Specify A Referee
             </Typography>
             <Typography variant="body1" spacing={24}>
-              Please provide the ethereum address for the referee who will assess the challenge's completion.
+              Please provide either the ENS name or Ethereum address of the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
@@ -226,16 +228,27 @@ class Deploy extends Component {
                     margin="normal"
                     variant="outlined"
                     onChange={this.updateRefereeName}
-                    helperText="Input either ENS name or Ethereum address"
+                    helperText="Input either the ENS name or Ethereum address"
                   />
-                <Typography variant={'body2'}>
+                
                     { referee_address && (
                         isEthereumAddress(referee_name) ?
-                            "Valid ethereum address" :
-                            "Valid ENS name"
+                        <Grid container>
+                          <Done />
+                          <Typography variant={'body2'}>
+                              Valid ethereum address
+                          </Typography>
+                        </Grid>
+                        :
+                        <Grid container>
+                          <Done />
+                          <Typography variant={'body2'}>
+                              Valid ENS name
+                          </Typography>
+                        </Grid>
                     )
                     }
-                </Typography>
+                    
               </Grid>
 
             </Grid>
