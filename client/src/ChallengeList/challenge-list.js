@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import {ArrowForward} from '@material-ui/icons';
+import {ArrowForward, LaunchRounded} from '@material-ui/icons';
 import {Grid, Paper, Divider, TextField, Button} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
@@ -53,8 +53,18 @@ class ChallengeList extends Component {
     });
   };
 
+  sortItemsByDeadline() {
+    const sorted = this.state.items.sort((a, b) => {
+      a = new Date(a[4])
+      b = new Date(b[4])
+      return b > a ? -1 : b < a ? 1 : 0;
+    })
+    this.setState({items: sorted})
+  }
+
 
   makePledge(addr, amount) {
+
     assignDaiToContract(addr, amount)
   }
 
@@ -82,6 +92,8 @@ class ChallengeList extends Component {
         this.updatePledgedAmount(this.state.selectedContract)
       }
     }, 8000)
+
+    this.sortItemsByDeadline()
   }
 
   unixTimestamp(t) {
@@ -108,14 +120,14 @@ class ChallengeList extends Component {
               <Timeago date={new Date(arr[4]*1000)} />
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography variant="h6">
-              {arr[0]}
+              {arr[3].substring(0,8) + '...'}
             </Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Typography variant="h6">
-              {arr[1]}
+              {arr[0]}
             </Typography>
           </Grid>
           <Grid item xs={3}>
@@ -123,10 +135,10 @@ class ChallengeList extends Component {
               {arr[2]}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={1}>
           <ListItemSecondaryAction>
             <IconButton aria-label="View">
-              <ArrowForward />
+              <LaunchRounded />
             </IconButton>
           </ListItemSecondaryAction>
           </Grid>
@@ -149,22 +161,22 @@ class ChallengeList extends Component {
                 <b>Deadline</b>
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography variant="h6">
-                <b>Title</b>
+                <b>Contract</b>
               </Typography>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Typography variant="h6">
-                <b>Description</b>
+                <b>Commitment</b>
               </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h6">
+              <Typography className={styles.textRight} variant="h6">
                 <b>Balance (DAI)</b>
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1}>
             </Grid>
           </ListItem>
           <Divider/>
@@ -195,12 +207,11 @@ class ChallengeList extends Component {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid container>
+            <Grid container spacing={24}>
               <Grid item xs={6} sm={6}>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
                     <b>Commitment Deadline:</b> {this.state.isLoaded ? this.unixTimestamp(this.state.items[this.state.selectedItem][4]) : null}
-
                   </Typography>
                 </Grid>
                 <Grid container>
