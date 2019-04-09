@@ -11,6 +11,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import {deployCommitment } from '../shared/listingUtilities';
+import {ensResolveName, isEthereumAddress} from "../shared/ens-utils";
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -26,7 +27,8 @@ class Deploy extends Component {
 
     this.state = {
       activeStep: 0,
-      referee_address: "",
+      referee_name: "",
+      referee_address: null,
 
       com_title: "",
       com_desc: "",
@@ -35,8 +37,6 @@ class Deploy extends Component {
 
       success_ben: "",
       failure_ben: "",
-
-      currency: 'USD',
     };
   }
 
@@ -51,19 +51,6 @@ class Deploy extends Component {
       activeStep: state.activeStep - 1,
     }));
   };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
 
   handleDateChange = date => {
     this.setState({ com_date: date });
@@ -86,6 +73,17 @@ class Deploy extends Component {
       )
   };
 
+  updateRefereeName = (event) => {
+    const name = event.target.value;
+    this.setState(({referee_name: name}));
+    if(isEthereumAddress(name)) {
+        this.setState({referee_address: name})
+    } else {
+        ensResolveName(name)
+            .then(addr => this.setState({referee_address: addr}))
+    }
+  }
+
   get deadline() {
     const deadline = new Date(
       this.state.com_date.getFullYear(),
@@ -94,15 +92,12 @@ class Deploy extends Component {
       this.state.com_time.getHours(),
       this.state.com_time.getMinutes(),
       this.state.com_time.getSeconds()
-    )
+    );
     return Math.floor(deadline.getTime() / 1000);
   }
 
   render() {
-    const { activeStep } = this.state;
-    const { selectedDate } = this.state;
-
-    const { com_date, com_time } = this.state;
+    const { com_date, com_time, activeStep, referee_name, referee_address } = this.state;
 
     return (
       
@@ -133,16 +128,22 @@ class Deploy extends Component {
                   <TextField
                     required
                     id="referee-address"
-                    label="Referee Ethereum Address"
                     fullWidth
-                    // defaultValue="0x1234567890"
+                    value={referee_name}
                     className={styles.textField}
-                    value={this.state.referee_address}
                     margin="normal"
                     variant="outlined"
-                    onChange={(e) => this.setState({referee_address: e.target.value})}
-                    // helperText="The address of the referee who will assess the challenge's completion"
+                    onChange={this.updateRefereeName}
+                    helperText="Input either ENS name or Ethereum address"
                   />
+                <Typography variant={'body2'}>
+                    { referee_address && (
+                        isEthereumAddress(referee_name) ?
+                            "Valid ethereum address" :
+                            "Valid ENS name"
+                    )
+                    }
+                </Typography>
               </Grid>
 
             </Grid>
@@ -231,14 +232,14 @@ class Deploy extends Component {
               <Grid item xs={12}>
                 <TextField
                   required
-                  id="beneficiery-success"
-                  label="Success Beneficiery"
+                  id="beneficiary-success"
+                  label="Success Beneficiary"
                   fullWidth
                   //defaultValue="0x1234567890"
                   className={styles.textField}
                   margin="normal"
                   variant="outlined"
-                  helperText="The beneficiery that will receive the money if you succeed at the challenge"
+                  helperText="The beneficiary that will receive the money if you succeed at the challenge"
                   value={this.state.success_ben}
                   onChange={(e) => this.setState({success_ben: e.target.value})}
                 />
@@ -246,14 +247,14 @@ class Deploy extends Component {
 
               <Grid item xs={12}>
                 <TextField
-                  id="beneficiery-failure"
-                  label="Failure Beneficiery"
+                  id="beneficiary-failure"
+                  label="Failure Beneficiary"
                   fullWidth
                   //defaultValue="0x1234567890"
                   className={styles.textField}
                   margin="normal"
                   variant="outlined"
-                  helperText="The beneficiery that will receive the money if you fail at the challenge"
+                  helperText="The beneficiary that will receive the money if you fail at the challenge"
                   value={this.state.failure_ben}
                   onChange={(e) => this.setState({failure_ben: e.target.value})}
                 />
@@ -277,6 +278,7 @@ class Deploy extends Component {
               color="primary"
               onClick={this.handleNext}
               className={styles.button}
+              disabled={referee_address === null}
               >
               Next
             </Button>
