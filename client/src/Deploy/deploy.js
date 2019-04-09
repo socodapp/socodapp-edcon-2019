@@ -16,10 +16,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import withStyles from '@material-ui/core/styles/withStyles';
+import {deployCommitment } from '../shared/listingUtilities';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+
+import ClassNames from 'classnames';
 
 const currencies = [
   {
@@ -40,13 +43,13 @@ const currencies = [
   },
 ];
 
-const steps = ['Specify a Referee', 'Commitment Details', 'Beneficieries'];
+const steps = ['Specify a Referee', 'Commitment Details', 'Beneficiaries'];
 
 
 class Deploy extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       activeStep: 0,
@@ -56,7 +59,7 @@ class Deploy extends Component {
       com_desc: "",
       com_date: new Date(),
       com_time: new Date(),
-      
+
       success_ben: "",
       failure_ben: "",
 
@@ -81,14 +84,14 @@ class Deploy extends Component {
       activeStep: 0,
     });
   };
-  
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
   };
-  
-  
+
+
   handleDateChange = date => {
     this.setState({ com_date: date });
   };
@@ -98,8 +101,32 @@ class Deploy extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log(this.state);
-    console.log(this.deadline);
+      const { success_ben, failure_ben, com_title, com_desc, referee_address } = this.state;
+      deployCommitment(
+        success_ben,
+          failure_ben,
+          referee_address,
+          com_title,
+          com_desc,
+          this.deadline
+      )
+  };
+
+  renderStepOne(step) {
+     
+  }
+
+  renderStepTwo(step) {
+
+  }
+
+  renderStepThree(step) {
+
+    if (step === 2) {
+
+    } else {
+
+    }
   }
 
   get deadline() {
@@ -121,8 +148,8 @@ class Deploy extends Component {
     const { selectedDate } = this.state;
 
     return (
-
-      <Grid container wrap="nowrap" >
+      
+      <Grid container wrap="nowrap" className={styles.container} >
         <Paper className={styles.paper}>
           <Typography component="h1" variant="h4" align="center">
             New commitment
@@ -134,45 +161,14 @@ class Deploy extends Component {
               </Step>
             ))}
           </Stepper>
-
-          {/*
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Your new commitment is being prepared...
-              </Typography>
-              <Typography variant="subtitle1">
-                Blah blah.. Click <a>here</a> to see your commitment.
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {getStepContent(activeStep, this.state)}
-              <div className={styles.buttons}>
-                {activeStep !== 0 && (
-                  <Button onClick={this.handleBack} className={styles.button}>
-                    Back
-                  </Button>
-                )}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={styles.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Deploy' : 'Next'}
-                </Button>
-              </div>
-            </React.Fragment>
-          )}
-          */}
-
-        <div id="refereeForm">
-          <React.Fragment>
-            <Typography variant="h6" gutterBottom>
+        
+        <Grid container className={styles.form}>
+        {activeStep == 0 &&
+        <Grid container className={styles.plz}>
+            <Typography variant="h6">
               Specify a Referee
             </Typography>
-            <Typography variant="body1" gutterBottom spacing={24}>
+            <Typography variant="body1" spacing={24}>
               The address of the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
@@ -193,11 +189,11 @@ class Deploy extends Component {
               </Grid>
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
 
-        <div id="commitmentForm">
-          <React.Fragment>
+        {activeStep == 1 &&
+        <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Commitment Details
             </Typography>
@@ -234,7 +230,7 @@ class Deploy extends Component {
                   onChange={(e) => this.setState({com_desc: e.target.value})}
                 />
               </Grid>
-              
+
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
                   <DatePicker
@@ -255,14 +251,14 @@ class Deploy extends Component {
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
-              
+
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
 
-        <div id="beneficieriesForm">
-          <React.Fragment>
+        {activeStep == 2 &&
+        <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
               Shipping address
             </Typography>
@@ -299,11 +295,31 @@ class Deploy extends Component {
               </Grid>
 
             </Grid>
-          </React.Fragment>
-        </div>
+        </Grid>
+        }
+        </Grid>
 
-        <Grid item>
-          <Button variant="contained" color="secondary" onClick={this.handleSubmit}>DEPLOY</Button>
+        <Grid container className={styles.buttons}>
+          {activeStep != 0 &&
+            <Button onClick={this.handleBack} className={styles.button} >
+              Back
+            </Button>
+          }
+
+          {activeStep != 2 &&
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleNext}
+              className={styles.button}
+              >
+              Next
+            </Button>
+          }
+
+          {activeStep == 2 &&
+            <Button variant="contained" color="secondary" className={styles.button} onClick={this.handleSubmit}>DEPLOY</Button>
+          }
         </Grid>
         </Paper>
       </Grid>

@@ -19,7 +19,7 @@ class Header extends Component {
             spacing={24}
           >
             <Grid item>
-              <img src="/img/stryve-logo.svg" />
+              <img src="/img/stryve-logo.svg" className={styles.logo} alt="stryve" />
               </Grid>
             <Grid item>
               <Button className={styles.navButton}>

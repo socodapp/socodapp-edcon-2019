@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import styles from './challenge-list.css';
 
 import List from '@material-ui/core/List';
@@ -10,12 +7,11 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
-import { AccessAlarm, ThreeDRotation, ArrowForward } from '@material-ui/icons';
+import { ArrowForward } from '@material-ui/icons';
 
-import { ethers } from 'ethers';
 
 import {getListing} from '../shared/etherscanUtils.js'
+
 
 class ChallengeList extends Component {
   state = {

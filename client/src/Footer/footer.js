@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
+import React from 'react';
+import { Grid, Button } from '@material-ui/core';
 
 import styles from './footer.css'
 
 const Footer = (props) => {
 
     return (
-      <Grid container className={styles.container}>
-        <p>this is the footer component</p>
+      <Grid container className={styles.container} justify="center">
+        <a href="https://github.com/socodapp/stryve">
+          <Button variant="contained" color="primary">
+          Github
+          </Button></a>
       </Grid>
     )
 }
