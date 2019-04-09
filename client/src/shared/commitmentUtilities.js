@@ -49,3 +49,12 @@ export const finalize = (addr, success) => {
             )
     }
 };
+
+export const withdraw = () => {
+    if (web3Injected()) {
+        const Commitment = contracts(definition);
+        Commitment.setProvider(currentProvider());
+        return Commitment.at(addr)
+            .then(contract => contract.withdraw({from: activeUser()}))
+    }
+};
