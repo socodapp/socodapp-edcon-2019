@@ -6,3 +6,6 @@
 
 # Truffle compilation
 backend/build
+
+# package-lock
+package-lock.json

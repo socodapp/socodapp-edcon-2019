@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+
 const currencies = [
   {
     value: 'USD',
@@ -42,26 +46,23 @@ class Deploy extends Component {
     });
   };
 
+  handleDateChange = date => {
+    this.setState({ selectedDate: date });
+  };
+  
   render() {
+
+    const { selectedDate } = this.state;
 
     return (
       <Grid container>
         <Grid item>
           <form className={styles.container} noValidate autoComplete="off">
             <TextField
-              id="outlined-name"
-              label="Name"
-              className={classNames(styles.textField)}
-              value={this.state.name}
-              onChange={this.handleChange('name')}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-uncontrolled"
-              label="Uncontrolled"
-              defaultValue="foo"
+              required
+              id="outlined-required"
+              label="Title"
+              defaultValue="Jane will quit smoking"
               className={styles.textField}
               margin="normal"
               variant="outlined"
@@ -69,78 +70,8 @@ class Deploy extends Component {
 
             <TextField
               required
-              id="outlined-required"
-              label="Required"
-              defaultValue="Hello World"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              error
-              id="outlined-error"
-              label="Error"
-              defaultValue="Hello World"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              disabled
-              id="outlined-disabled"
-              label="Disabled"
-              defaultValue="Hello World"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-email-input"
-              label="Email"
-              className={styles.textField}
-              type="email"
-              name="email"
-              autoComplete="email"
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-password-input"
-              label="Password"
-              className={styles.textField}
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-read-only-input"
-              label="Read Only"
-              defaultValue="Hello World"
-              className={styles.textField}
-              margin="normal"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-dense"
-              label="Dense"
-              className={classNames(styles.textField, styles.dense)}
-              margin="dense"
-              variant="outlined"
-            />
-
-            <TextField
               id="outlined-multiline-flexible"
-              label="Multiline"
+              label="Description"
               multiline
               rowsMax="4"
               value={this.state.multiline}
@@ -150,137 +81,63 @@ class Deploy extends Component {
               helperText="hello"
               variant="outlined"
             />
+            
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="space-around">
+                <DatePicker
+                  required
+                  margin="normal"
+                  label="Date picker"
+                  value={selectedDate}
+                  onChange={this.handleDateChange}
+                />
+                <TimePicker
+                  required
+                  margin="normal"
+                  label="Time picker"
+                  value={selectedDate}
+                  onChange={this.handleDateChange}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
 
             <TextField
-              id="outlined-multiline-static"
-              label="Multiline"
-              multiline
-              rows="4"
-              defaultValue="Default Value"
+              required
+              id="outlined-required"
+              label="Success Beneficiery"
+              
+              defaultValue="0x1234567890"
               className={styles.textField}
               margin="normal"
               variant="outlined"
+              helperText="The beneficiery that will receive the money if you succeed at the challenge"
             />
 
             <TextField
-              id="outlined-helperText"
-              label="Helper text"
-              defaultValue="Default Value"
+              id="outlined-required"
+              label="Failure Beneficiery"
+              
+              defaultValue="0x1234567890"
               className={styles.textField}
-              helperText="Some important text"
               margin="normal"
               variant="outlined"
+              helperText="The beneficiery that will receive the money if you fail at the challenge"
             />
 
             <TextField
-              id="outlined-with-placeholder"
-              label="With placeholder"
-              placeholder="Placeholder"
+              required
+              id="outlined-required"
+              label="Referee"
+              
+              defaultValue="0x1234567890"
               className={styles.textField}
               margin="normal"
               variant="outlined"
+              helperText="The address of the referee who will assess the challenge's completion"
             />
 
-            <TextField
-              id="outlined-textarea"
-              label="Multiline Placeholder"
-              placeholder="Placeholder"
-              multiline
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-number"
-              label="Number"
-              value={this.state.age}
-              onChange={this.handleChange('age')}
-              type="number"
-              className={styles.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-search"
-              label="Search field"
-              type="search"
-              className={styles.textField}
-              margin="normal"
-              variant="outlined"
-            />
-
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Select"
-              className={styles.textField}
-              value={this.state.currency}
-              onChange={this.handleChange('currency')}
-              SelectProps={{
-                MenuProps: {
-                  className: styles.menu,
-                },
-              }}
-              helperText="Please select your currency"
-              margin="normal"
-              variant="outlined"
-            >
-              {currencies.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="outlined-select-currency-native"
-              select
-              label="Native select"
-              className={styles.textField}
-              value={this.state.currency}
-              onChange={this.handleChange('currency')}
-              SelectProps={{
-                native: true,
-                MenuProps: {
-                  className: styles.menu,
-                },
-              }}
-              helperText="Please select your currency"
-              margin="normal"
-              variant="outlined"
-            >
-              {currencies.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </TextField>
-            <TextField
-              id="outlined-full-width"
-              label="Label"
-              style={{ margin: 8 }}
-              placeholder="Placeholder"
-              helperText="Full width!"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-
-            <TextField
-              id="outlined-bare"
-              className={styles.textField}
-              defaultValue="Bare"
-              margin="normal"
-              variant="outlined"
-            />
           </form>
+
         </Grid>
         <Grid item>
           <Button variant="contained" color="secondary">DEPLOY</Button>
