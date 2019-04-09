@@ -25,3 +25,7 @@
   box-shadow: 5;
   outline: none,
 }
+
+:local(.gridMargin) {
+  margin: 20px;
+}

@@ -9,8 +9,9 @@ import {ArrowForward} from '@material-ui/icons';
 import {Grid, Paper, Divider, TextField, Button} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import {getListing} from '../shared/etherscanUtils.js';
-import {assignDaiToContract, transferDaiToContract, allowance, pledged} from '../shared/commitmentUtilities.js';
+import { getListing } from '../shared/etherscanUtils.js';
+import { assignDaiToContract, transferDaiToContract, pledged, allowance } from '../shared/commitmentUtilities.js';
+import Timeago from 'react-timeago';
 
 class ChallengeList extends Component {
 
@@ -83,6 +84,17 @@ class ChallengeList extends Component {
     }, 8000)
   }
 
+  unixTimestamp(t) {
+    let dt = new Date(t*1000);
+    let yr = dt.getFullYear()
+    let mo = dt.getMonth()
+    let da = dt.getDay()
+    let hr = dt.getHours();
+    let m = "0" + dt.getMinutes();
+    let s = "0" + dt.getSeconds();
+    return yr + '-' + mo + '-' + da + ' ' + hr+ ':' + m.substr(-2) + ':' + s.substr(-2) + ' UTC'
+  }
+
   renderItems(items) {
     let i = 0;
     const result = items.map(arr => {
@@ -91,36 +103,36 @@ class ChallengeList extends Component {
       return (
         <Grid key={i}>
           <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleItemSelect(arr[3])}>
-            <Grid item xs={2}>
-              <Typography variant="h6">
-                {i}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="h6">
-                {arr[0]}
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h6">
-                {arr[1]}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography className={styles.textRight} variant="h6">
-                {arr[2]}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <ListItemSecondaryAction>
-                <IconButton aria-label="View">
-                  <ArrowForward/>
-                </IconButton>
-              </ListItemSecondaryAction>
-            </Grid>
-          </ListItem>
-          <Divider/>
-        </Grid>
+          <Grid item xs={3}>
+          <Typography variant="h6">
+              <Timeago date={new Date(arr[4]*1000)} />
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h6">
+              {arr[0]}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="h6">
+              {arr[1]}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography className={styles.textRight} variant="h6">
+              {arr[2]}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+          <ListItemSecondaryAction>
+            <IconButton aria-label="View">
+              <ArrowForward />
+            </IconButton>
+          </ListItemSecondaryAction>
+          </Grid>
+        </ListItem>
+        <Divider />
+      </Grid>
 
       )
     });
@@ -132,9 +144,9 @@ class ChallengeList extends Component {
       <Paper className={styles.container}>
         <List>
           <ListItem className={styles.list}>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Typography variant="h6">
-                <b>Number</b>
+                <b>Deadline</b>
               </Typography>
             </Grid>
             <Grid item xs={3}>
@@ -149,7 +161,7 @@ class ChallengeList extends Component {
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h6">
-                <b>Pleged Balances</b>
+                <b>Balance (DAI)</b>
               </Typography>
             </Grid>
             <Grid item xs={3}>
@@ -167,21 +179,33 @@ class ChallengeList extends Component {
         >
           <Grid container className={styles.modal} justify="center">
             <Grid container>
-              <Typography variant="h3" id="modal-title">
-                Social Commitment
-              </Typography>
+              <Grid item xs={6}>
+                <Typography variant="h3" id="modal-title">
+                {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
+                </Typography>
+              </Grid>
+              <Grid item xs={5} className={styles.gridMargin}>
+                <Grid container>
+                  <Typography variant="h4" id="modal-title">
+                    My Pledge: <b>{this.state.pledged}</b>
+                  </Typography>
+                </Grid>
+                <Grid container>
+                  ({this.state.pendingPledgeAmount} pending)
+                </Grid>
+              </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6} sm={6}>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Commitment Title:</b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
+                    <b>Commitment Deadline:</b> {this.state.isLoaded ? this.unixTimestamp(this.state.items[this.state.selectedItem][4]) : null}
 
                   </Typography>
                 </Grid>
                 <Grid container>
                   <Typography variant="subtitle1" id="simple-modal-description">
-                    <b>Commitment Address:</b> {this.state.selectedContract}
+                    <b>Contract Address:</b> {this.state.selectedContract}
                   </Typography>
                 </Grid>
                 <Grid container>
@@ -199,7 +223,7 @@ class ChallengeList extends Component {
                   <Divider/>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Grid container>
                   <b>Pledge commitment in DAI:</b>
                 </Grid>
@@ -221,18 +245,17 @@ class ChallengeList extends Component {
                   </form>
                 </Grid>
                 <Grid container>
-                  <Button variant="contained"
-                          color="primary"
-                          onClick={() => this.makePledge(this.state.selectedContract, this.state.pledgeAmount)}
-                  >
-                    PLEDGE
-                  </Button>
+                  <Grid container className={styles.gridMargin}>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={() => this.makePledge(this.state.selectedContract, this.state.pledgeAmount)}
+                    >
+                      PLEDGE
+                    </Button>
                 </Grid>
-                <Grid container>
-                  <b>Pledged: {this.state.pledged} ({this.state.pendingPledgeAmount} pending)</b>
-                </Grid>
+
                 {Number(this.state.pendingPledgeAmount) > 0 &&
-                (<Grid container>
+                (<Grid container className={styles.gridMargin}>
                   <Button variant="contained"
                           color="primary"
                           onClick={() => this.finalizePledge(this.state.selectedContract)}
@@ -241,6 +264,7 @@ class ChallengeList extends Component {
                   </Button>
                 </Grid>)
                 }
+              </Grid>
               </Grid>
             </Grid>
           </Grid>

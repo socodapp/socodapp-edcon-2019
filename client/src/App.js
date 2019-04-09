@@ -7,7 +7,6 @@ import Home from './Home/home.js';
 import Deploy from './Deploy/deploy.js';
 import styles from './App.css';
 import ChallengeList from './ChallengeList/challenge-list.js';
-import Challenge from './Challenge/challenge.js';
 
 import Footer from './Footer/footer.js';
 import {initalize, web3Injected } from "./shared/metamaskUtils";

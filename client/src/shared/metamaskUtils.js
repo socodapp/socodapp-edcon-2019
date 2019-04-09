@@ -1,3 +1,4 @@
+
 export const initalize = async () => {
     if (window.ethereum) {
         window.web3 = new window.Web3(window.ethereum);
@@ -5,6 +6,7 @@ export const initalize = async () => {
             await window.ethereum.enable();
             return true;
         } catch {
+            return false;
         }
     }
     return false;
