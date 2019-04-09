@@ -75,6 +75,12 @@ class ChallengeList extends Component {
     if (params && params.address) {
       this.handleItemSelect(params.address)
     }
+
+    setInterval(() => {
+      if (this.state.selectedContract) {
+        this.updatePledgedAmount(this.state.selectedContract)
+      }
+    }, 8000)
   }
 
   renderItems(items) {
