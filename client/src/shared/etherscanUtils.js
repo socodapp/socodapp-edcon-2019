@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 
 // const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
-const registryAddr = "0x988C0f9F747bD95C987D88205A33AB495235E9F4"; // ropsten
+const registryAddr = "0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899"; // ropsten
 const apiKey = "YourApiKeyToken";
 // const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
 const apiUrl = "https://api-ropsten.etherscan.io/api" + "?apikey=" + apiKey
