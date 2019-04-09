@@ -14,6 +14,8 @@ import CommentIcon from '@material-ui/icons/Comment';
 
 import { ethers } from 'ethers';
 
+import getListing from '../shared/etherscanUtils.js'
+
 const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064";
 const apiKey = "YourApiKeyToken";
 const apiUrl = "https://api-kovan.etherscan.io/api?module=logs&action=getLogs&fromBlock=10706350&toBlock=latest";
@@ -40,41 +42,19 @@ class ChallengeList extends Component {
     });
   };
 
-  decodeEventData = (data) => {
-    return ethers.utils.defaultAbiCoder.decode(["address", "address", "address", "address", "address", "string", "string", "uint256"], data)
-  }
-
-  componentDidMount() {
-    const restUrl = apiUrl + "&address=" + registryAddr + "&apikey=" + apiKey;
-    console.log(restUrl);
-    fetch(restUrl)
-      .then(res => res.json())
-     // TODO reverse ens all addresses in res.result
-      .then(
-        (res) => {
-          this.setState({
-            isLoaded: true,
-            items: res.result.map(item =>
-                [item.address].concat(this.decodeEventData(item.data)))
-          });
-          console.log(this.state.items);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+  async componentDidMount() {
+    const items = await getListing();
+    console.log("items");
+    console.log(items);
+    this.setState({isLoaded: true, items: items});
   }
 
   render() {
 
     // TODO write a nice UI
     const items = this.state.items;
+    console.log("render items");
+    console.log(items);
     return (
       <List className={styles.root}>
         {items.map(arr => (
@@ -84,9 +64,9 @@ class ChallengeList extends Component {
               tabIndex={-1}
               disableRipple
             />
-            <ListItemText primary={`Title ${arr[6]}`} />
-            <ListItemText primary={`Description ${arr[7]}`} />
-            <ListItemText primary={`Deadline ${arr[8]}`} />
+            <ListItemText primary={`Title ${arr[0]}`} />
+            <ListItemText primary={`Description ${arr[1]}`} />
+            <ListItemText primary={`Deadline ${arr[2]}`} />
             <ListItemText primary={`Balance 42`} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
