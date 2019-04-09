@@ -10,8 +10,7 @@ import { ArrowForward } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import {getListing} from '../shared/etherscanUtils.js';
-
+import { getListing } from '../shared/etherscanUtils.js';
 
 class ChallengeList extends Component {
 
@@ -19,34 +18,45 @@ class ChallengeList extends Component {
     checked: [0],
     items: [],
     open: false,
+    selectedContract: null,
     selectedItem: null
   };
 
-  handleOpen = (item) => {
-    this.setState({selectedItem: item});
+  handleOpen () {
     this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.setState({selectedItem: null})
     this.setState({ open: false });
-    console.log(this.state.selectedItem)
   };
 
-  async componentDidMount() {
-    const items = await getListing();
-    this.setState({isLoaded: true, items: items});
+  handleItemSelect(address) {
+    console.log(address)
   }
 
+  async componentDidMount() {
+
+    const items = await getListing();
+    this.setState({isLoaded: true, items: items});
+
+    const { match: { params } } = this.props;
+
+    if (params && params.address)  {
+      this.setState({ selectedContract: params.address})
+      this.handleOpen()
+    }
+  }
 
   renderItems(items) {
     let i = 0;
     const result = items.map(e => {
       const arr = e.array
+      const ind = items.indexOf(e)
+      let address = e.data[ind].addressf
       i++;
       return (
         <Grid key={i}>
-        <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleOpen(i)}>
+        <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleItemSelect(e.data[ind].address)}>
         <Grid item xs={2}>
             <ListItemText primary={`#${i}`} />
           </Grid>
@@ -74,7 +84,6 @@ class ChallengeList extends Component {
 }
 
   render() {
-    // TODO write a nice UI
     return (
       <Grid>
         <List className={styles.container}>

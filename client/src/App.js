@@ -24,8 +24,7 @@ class App extends Component {
           <Header />
           <Route exact path="/" component={Home} />
           <Route path="/deploy" component={Deploy} />
-          <Route path="/commitments" component={ChallengeList} />
-          <Route path="/commited/:address" component={Challenge} />
+          <Route path="/commitments/:address?" component={ChallengeList} />
           <Footer />
         </div>
       </BrowserRouter>
