@@ -99,6 +99,7 @@ class Deploy extends Component {
 
   handleSubmit = (event) => {
     console.log(this.state);
+    console.log(this.deadline);
   }
 
   get deadline() {
