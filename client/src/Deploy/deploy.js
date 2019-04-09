@@ -75,6 +75,7 @@ class Deploy extends Component {
 
   handleSubmit = (event) => {
       const { success_ben, failure_ben, com_title, com_desc, referee_address } = this.state;
+      console.log(this.state);
       deployCommitment(
         success_ben,
           failure_ben,
@@ -101,6 +102,8 @@ class Deploy extends Component {
     const { activeStep } = this.state;
     const { selectedDate } = this.state;
 
+    const { com_date, com_time } = this.state;
+
     return (
       
       <Grid container wrap="nowrap" className={styles.container} >
@@ -120,10 +123,10 @@ class Deploy extends Component {
         {activeStep === 0 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6">
-              Specify a Referee
+              Specify A Referee
             </Typography>
             <Typography variant="body1" spacing={24}>
-              The address of the referee who will assess the challenge's completion.
+              Please provide the ethereum address for the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
               <Grid item xs={12}>
@@ -178,12 +181,16 @@ class Deploy extends Component {
                   fullWidth
                   className={styles.textField}
                   margin="normal"
-                  helperText="hello"
+                  helperText="Detailed description about the commitment, and what conditions you must meet to succeed at it."
                   variant="outlined"
                   value={this.state.com_desc}
                   onChange={(e) => this.setState({com_desc: e.target.value})}
                 />
               </Grid>
+
+              <Typography variant="subtitle1" >
+                Contract Expiry Date
+              </Typography>
 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
@@ -192,7 +199,7 @@ class Deploy extends Component {
                     id="commitment-date"
                     margin="normal"
                     label="Date picker"
-                    value={selectedDate}
+                    value={com_date}
                     onChange={this.handleDateChange}
                   />
                   <TimePicker
@@ -200,8 +207,8 @@ class Deploy extends Component {
                     id="commitment-time"
                     margin="normal"
                     label="Time picker"
-                    value={selectedDate}
-                    onChange={this.handleDateChange}
+                    value={com_time}
+                    onChange={this.handleTimeChange}
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
@@ -214,9 +221,13 @@ class Deploy extends Component {
         {activeStep === 2 &&
         <Grid container className={styles.plz}>
             <Typography variant="h6" gutterBottom>
-              Shipping address
+              Pick The Beneficiaries
             </Typography>
             <Grid container spacing={24}>
+              <Grid item xs={12}>
+                
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required

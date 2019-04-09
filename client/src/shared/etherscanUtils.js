@@ -2,14 +2,14 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 
 // const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
-const registryAddr = "0x988C0f9F747bD95C987D88205A33AB495235E9F4"; // ropsten
+const registryAddr = "0x34A9706EEc2540A4e4606FeF7b8535A7CFfeE899"; // ropsten
 const apiKey = "YourApiKeyToken";
 // const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
 const apiUrl = `https://api-ropsten.etherscan.io/api?apikey=${apiKey}`
 const logParams = "&module=logs&action=getLogs&fromBlock=0&toBlock=latest";
 
 const balanceParams = "&module=account&action=tokenbalance&tag=latest"
-const DAIContractAdrr = "0x7d5E6A841Ec195F30911074d920EEc665A973A2D"
+const DAIContractAdrr = "0xaD6D458402F60fD3Bd25163575031ACDce07538D"
 
 async function reqJSON(url) {
   try {

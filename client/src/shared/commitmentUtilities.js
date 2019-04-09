@@ -4,7 +4,7 @@ import {web3Injected, currentProvider, activeUser} from "./metamaskUtils";
 const definition = require('./contracts/SocialCommitment');
 const ERC20Definition = require('./contracts/SampleERC20');
 
-const DAI_ROPSTEN = '0x7dddbD7D0AEB365D90A6A8AF1fC33c95f47a4f84';
+const DAI_ROPSTEN = '0xaD6D458402F60fD3Bd25163575031ACDce07538D';
 
 export const isReferee = (addr) => {
     if (web3Injected()) {
@@ -44,13 +44,13 @@ export const finalize = (addr, success) => {
         Commitment.setProvider(currentProvider());
         return Commitment.at(addr)
             .then(contract => success ?
-                contract.finaliseSucceed({from: activeUser()}) :
-                contract.finaliseFail({from: activeUser()})
+                contract.finalizeSucceed({from: activeUser()}) :
+                contract.finalizeFail({from: activeUser()})
             )
     }
 };
 
-export const withdraw = () => {
+export const withdraw = (addr) => {
     if (web3Injected()) {
         const Commitment = contracts(definition);
         Commitment.setProvider(currentProvider());
