@@ -3,8 +3,7 @@ import axios from 'axios';
 import { contractAddresses } from './listingUtilities.js';
 import { deadline } from './commitmentUtilities.js'
 
-// const registryAddr = "0x6fff4185512B1a9E2bab8461Be1CCCb625A62064"; // kogan
-const registryAddr = "0xc491586e0635F3bb6265158948485515E782555E"; // ropsten
+const registryAddr = "0xA95a5c20192B1F7bf5cAEa8628A61dD6D743F6b1"; // ropsten
 const apiKey = "YourApiKeyToken";
 // const apiUrl = "https://api-kovan.etherscan.io/api" + "?apikey=" + apiKey
 const apiUrl = `https://api-ropsten.etherscan.io/api?apikey=${apiKey}`
