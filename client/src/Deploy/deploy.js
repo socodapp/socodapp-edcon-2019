@@ -193,6 +193,7 @@ class Deploy extends Component {
   render() {
     const { com_date, com_time, activeStep, referee_name, referee_address } = this.state;
 
+
     return (
 
       <Grid container wrap="nowrap" className={styles.container} >
@@ -211,7 +212,7 @@ class Deploy extends Component {
         <Grid container className={styles.form}>
         {activeStep === 0 &&
         <Grid container className={styles.plz}>
-            <Typography variant="h6">
+            <Typography className={styles.itemMargin} variant="h6">
               Specify A Referee
             </Typography>
             <Typography variant="body1" spacing={24}>

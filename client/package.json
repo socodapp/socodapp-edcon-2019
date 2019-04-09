@@ -9,6 +9,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "date-fns": "^2.0.0-alpha.27",
+    "ethereum-address": "0.0.4",
     "ethers": "^4.0.27",
     "material-ui": "^0.20.2",
     "material-ui-pickers": "^2.2.4",

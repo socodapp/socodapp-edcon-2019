@@ -4,14 +4,13 @@ import styles from './challenge-list.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import { ArrowForward } from '@material-ui/icons';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper, Divider, TextField, Button } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import {getListing} from '../shared/etherscanUtils.js';
-
+import { getListing } from '../shared/etherscanUtils.js';
+import { assignDaiToContract, transferDaiToContract } from '../shared/commitmentUtilities.js';
 
 class ChallengeList extends Component {
 
@@ -19,46 +18,81 @@ class ChallengeList extends Component {
     checked: [0],
     items: [],
     open: false,
-    selectedItem: null
+    selectedContract: null,
+    selectedItem: null,
+    isLoaded: false,
+    pledgeAmount: 0
   };
 
-
-  handleOpen = (item) => {
-    this.setState({selectedItem: item});
+  handleOpen () {
     this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.setState({selectedItem: null})
     this.setState({ open: false });
-    console.log(this.state.selectedItem)
   };
+
+  handleItemSelect(address) {
+    this.state.items.forEach((e, i) => {
+      if (e[3] === address) {
+        this.setState({ selectedContract: address, selectedItem: i})
+        this.setState({isLoaded: true})
+        this.handleOpen()
+      }
+    })
+  }
+
+  handlePledgeAmountChange = event => {
+    this.setState({
+      pledgeAmount: event.target.value,
+    });
+  };
+
+
+  makePledge(addr, amount) {
+    assignDaiToContract(addr, amount)
+  }
+
+  finalizePledge(addr) {
+    transferDaiToContract(addr)
+  }
 
   async componentDidMount() {
     const items = await getListing();
-    this.setState({isLoaded: true, items: items});
+    this.setState({items: items});
+    const { match: { params } } = this.props;
+    if (params && params.address)  {
+      this.handleItemSelect(params.address)
+    }
   }
-
 
   renderItems(items) {
     let i = 0;
-    const result = items.map(e => {
-      const arr = e.array
+    const result = items.map(arr => {
+
       i++;
       return (
         <Grid key={i}>
-        <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleOpen(i)}>
-        <Grid item xs={2}>
-            <ListItemText primary={`#${i}`} />
+          <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleItemSelect(arr[3])}>
+          <Grid item xs={2}>
+          <Typography variant="h6">
+              {i}
+            </Typography>
           </Grid>
           <Grid item xs={3}>
-            <ListItemText  primary={`${arr[0]}`} />
+            <Typography variant="h6">
+              {arr[0]}
+            </Typography>
           </Grid>
           <Grid item xs={8}>
-            <ListItemText primary={`${arr[1]}`} />
+            <Typography variant="h6">
+              {arr[1]}
+            </Typography>
           </Grid>
           <Grid item xs={3}>
-            <ListItemText className={styles.textRight} primary={`${arr[2]}`} />
+            <Typography className={styles.textRight} variant="h6">
+              {arr[2]}
+            </Typography>
           </Grid>
           <Grid item xs={3}>
           <ListItemSecondaryAction>
@@ -68,6 +102,7 @@ class ChallengeList extends Component {
           </ListItemSecondaryAction>
           </Grid>
         </ListItem>
+        <Divider />
       </Grid>
 
     )});
@@ -75,26 +110,35 @@ class ChallengeList extends Component {
 }
 
   render() {
-    // TODO write a nice UI
     return (
-      <Grid>
-        <List className={styles.container}>
-          <ListItem className={styles.list} role={undefined}>
+      <Paper className={styles.container}>
+        <List>
+          <ListItem className={styles.list}>
             <Grid item xs={2}>
-                <ListItemText primary={'Num'} />
-              </Grid>
-              <Grid item xs={3}>
-                <ListItemText  primary={'Title'} />
-              </Grid>
-              <Grid item xs={8}>
-                <ListItemText primary={'Description'} />
-              </Grid>
-              <Grid item xs={3}>
-                <ListItemText className={styles.textRight} primary={'Pledged Balance'} />
-              </Grid>
-              <Grid item xs={3}>
-              </Grid>
+              <Typography variant="h6">
+                <b>Number</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="h6">
+                <b>Title</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="h6">
+                <b>Description</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="h6">
+                <b>Pleged Balances</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+            </Grid>
           </ListItem>
+          <Divider />
+
           {this.renderItems(this.state.items)}
         </List>
         <Modal
@@ -103,20 +147,81 @@ class ChallengeList extends Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div className={styles.modal}>
-            <Typography variant="h6" id="modal-title">
-              Text in a modal
+          <Grid container className={styles.modal} justify="center">
+            <Grid container>
+              <Typography variant="h3" id="modal-title">
+              Social Commitment
+              </Typography>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} sm={6}>
+              <Grid container>
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                    <b>Commitment Title:</b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][0] : null}
 
-              {this.state.selectedItem}
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </div>
+                  </Typography>
+                </Grid>
+                <Grid container>
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                    <b>Commitment Address:</b> {this.state.selectedContract}
+                  </Typography>
+                </Grid>
+                <Grid container>
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                  <b>Commitment Description:</b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][1] : null}
+                  </Typography>
+                  <Divider />
+                </Grid>
+                <Grid container>
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                  <b>Contract Balance: </b> {this.state.isLoaded ? this.state.items[this.state.selectedItem][2] : null}
+                  </Typography>
+                  <Divider />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+              <Grid container>
+              <b>Pledge commitment in DAI:</b>
+              </Grid>
+              <Grid container>
+                <form noValidate autoComplete="off">
+                  <TextField
+                    id="outlined-number"
+                    label="Amount"
+                    value={this.state.pledgeAmount}
+                    onChange={(e) => this.handlePledgeAmountChange(e)}
+                    type="number"
+                    className={styles.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    margin="normal"
+                    variant="outlined"
+                  />
+                </form>
+              </Grid>
+              <Grid container>
+                <Button variant="contained" 
+                  color="primary" 
+                  onClick={() => this.makePledge(this.state.selectedContract, this.state.pledgeAmount)}
+                >
+                  PLEDGE
+                </Button>
+              </Grid>
+            </Grid>
+            </Grid>
+          </Grid>
         </Modal>
-      </Grid>
+      </Paper>
     );
   }
 }
 
 export default ChallengeList;
+
+
+
+// todo
+
+// add to balance
+// referee can close challenge
