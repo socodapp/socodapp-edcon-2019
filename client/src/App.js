@@ -7,6 +7,7 @@ import Home from './Home/home.js';
 import Deploy from './Deploy/deploy.js';
 import styles from './App.css';
 import ChallengeList from './ChallengeList/challenge-list.js';
+import Footer from './Footer/footer.js';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/deploy" component={Deploy} />
           <Route path="/challenges" component={ChallengeList} />
+          <Footer />
         </div>
       </BrowserRouter>
     );

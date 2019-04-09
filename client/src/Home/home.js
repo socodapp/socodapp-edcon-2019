@@ -11,10 +11,10 @@ class Home extends Component {
 
   renderPerson(name, photo, url) {
     return <Grid item justify="center">
-      <Grid container justify="center" xs={3}>
+      <Grid container justify="center" >
         <img src={`img/${photo}`} className={styles.teamPhoto}/>
       </Grid>
-      <Grid  container xs={3}>
+      <Grid  container>
         <a href={url}>
           <Button color="primary">
           {name}
@@ -24,6 +24,13 @@ class Home extends Component {
     </Grid>
   }
 
+  renderItem(name, text) {
+    return <Grid item justify="center">
+      <Grid container justify="center">
+      </Grid>
+
+      </Grid>
+  }
   render() {
     return (
         <Grid item className={styles.root}>
@@ -35,24 +42,50 @@ class Home extends Component {
               </Typography>
             </Grid>
             <Grid container xs={12} justify="center">
-              <Grid item >
-                <NavLink to="/deploy"><Button variant="contained"  color="secondary" classname={styles.callToActionBtn}>Do Something Great</Button></NavLink>
+              <Grid item>
+                <NavLink to="/deploy">
+                  <Button variant="contained"  color="secondary" classname={styles.callToActionBtn}>
+                  Do Something Great
+                  </Button>
+                </NavLink>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Paper className={styles.paper}>xs=6</Paper>
-          </Grid>
+          {/* this is the Team Section */}
+          <Grid item xs={12}>
+            <Grid container className={styles.itemSection} justify="center" spacing={14}>
+              <Grid container className={styles.sectionTitle} justify="center">
+                <Typography variant="h4">
+                  Social Commitment Contract
+                </Typography>
+              </Grid>
+              <Grid container justify="center" xs={2}>
+                Create a personal challenge
+              </Grid>
+              <Grid container justify="center" xs={2}>
+                Crowd funded, crowd validated.
+              </Grid>
+              <Grid container justify="center" xs={2}>
+                Funds given to charity
+              </Grid>
+            </Grid>
+          </Grid>          </Grid>
           <Grid item xs={12}>
             <Paper className={styles.paper}>xs=6</Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper className={styles.paper}>xs=3</Paper>
           </Grid>
-          <Grid item xs={12}>
 
-            {/* this is the Team Section */}
+          {/* this is the Team Section */}
+          <Grid item xs={12}>
             <Grid container className={styles.teamSection} justify="center" spacing={14}>
+              <Grid container className={styles.sectionTitle} justify="center">
+                <Typography variant="h4">
+                  Team Info
+                </Typography>
+              </Grid>
               <Grid container justify="center" xs={2}>
                 {this.renderPerson('NIKESH NAZARETH', 'nikesh.jpeg', 'https://www.linkedin.com/in/nikeshnazareth/')}
               </Grid>
