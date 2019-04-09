@@ -42,12 +42,11 @@ export async function getListing() {
         return [evArgs[5], evArgs[6], evArgs[0]];
     });
     const pBalances = items.map(item => getBalance(item[2]));
+    const pDeadlines = addrs.map(addr => deadline(addr))
     const balances = await Promise.all(pBalances);
+    const deadlines = await Promise.all(pDeadlines);
     var retItems = []
-    items.forEach(
-       (item, i) => {
-        retItems.push([item[0], item[1], balances[i], addrs[i]])
-    });
+    items.forEach((item, i) => retItems.push([item[0], item[1], balances[i], addrs[i], deadlines[i]]));
 
 
     return retItems;

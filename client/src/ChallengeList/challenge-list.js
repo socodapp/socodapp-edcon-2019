@@ -9,8 +9,9 @@ import {ArrowForward} from '@material-ui/icons';
 import {Grid, Paper, Divider, TextField, Button} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import {getListing} from '../shared/etherscanUtils.js';
-import {assignDaiToContract, transferDaiToContract, allowance, pledged} from '../shared/commitmentUtilities.js';
+import { getListing } from '../shared/etherscanUtils.js';
+import { assignDaiToContract, transferDaiToContract } from '../shared/commitmentUtilities.js';
+import Timeago from 'react-timeago';
 
 class ChallengeList extends Component {
 
@@ -91,36 +92,36 @@ class ChallengeList extends Component {
       return (
         <Grid key={i}>
           <ListItem className={styles.list} role={undefined} dense button onClick={() => this.handleItemSelect(arr[3])}>
-            <Grid item xs={2}>
-              <Typography variant="h6">
-                {i}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="h6">
-                {arr[0]}
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h6">
-                {arr[1]}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography className={styles.textRight} variant="h6">
-                {arr[2]}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <ListItemSecondaryAction>
-                <IconButton aria-label="View">
-                  <ArrowForward/>
-                </IconButton>
-              </ListItemSecondaryAction>
-            </Grid>
-          </ListItem>
-          <Divider/>
-        </Grid>
+          <Grid item xs={3}>
+          <Typography variant="h6">
+              <Timeago date={new Date(arr[4]*1000)} />
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h6">
+              {arr[0]}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="h6">
+              {arr[1]}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography className={styles.textRight} variant="h6">
+              {arr[2]}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+          <ListItemSecondaryAction>
+            <IconButton aria-label="View">
+              <ArrowForward />
+            </IconButton>
+          </ListItemSecondaryAction>
+          </Grid>
+        </ListItem>
+        <Divider />
+      </Grid>
 
       )
     });
@@ -132,9 +133,9 @@ class ChallengeList extends Component {
       <Paper className={styles.container}>
         <List>
           <ListItem className={styles.list}>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Typography variant="h6">
-                <b>Number</b>
+                <b>Deadline</b>
               </Typography>
             </Grid>
             <Grid item xs={3}>
@@ -149,7 +150,7 @@ class ChallengeList extends Component {
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h6">
-                <b>Pleged Balances</b>
+                <b>Balance (DAI)</b>
               </Typography>
             </Grid>
             <Grid item xs={3}>
