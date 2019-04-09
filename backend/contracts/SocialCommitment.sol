@@ -4,13 +4,12 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "./CommitmentPhases.sol";
 
-
 contract SocialCommitment is CommitmentPhases {
     // MAIN
     // IERC20 dai = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359);
 
     // ROPSTEN
-    IERC20 dai = IERC20(0x7d5E6A841Ec195F30911074d920EEc665A973A2D);
+    IERC20 dai = IERC20(0xaD6D458402F60fD3Bd25163575031ACDce07538D);
 
 
     using SafeMath for uint256;
@@ -63,12 +62,12 @@ contract SocialCommitment is CommitmentPhases {
         emit PledgeReceived(msg.sender, amount);
     }
 
-    function finaliseSucceed() public onlyReferee beforeDeadline notFinalized {
+    function finalizeSucceed() public onlyReferee beforeDeadline notFinalized {
         dai.transfer(successBeneficiary, dai.balanceOf(address(this)));
         _finalize();
     }
 
-    function finaliseFail() public onlyReferee beforeDeadline notFinalized {
+    function finalizeFail() public onlyReferee beforeDeadline notFinalized {
         if (failureBeneficiary != address(0)) {
             dai.transfer(failureBeneficiary, dai.balanceOf(address(this)));
         }
