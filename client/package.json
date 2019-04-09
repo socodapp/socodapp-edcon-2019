@@ -25,7 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gulp": "node ./node_modules/gulp/bin/gulp.js",
-    "deploy": "node ./node_modules/gulp/bin/gulp.js deploy",
+    "deploy": "npm run build && node ./node_modules/gulp/bin/gulp.js deploy",
     "remove": "node ./node_modules/gulp/bin/gulp.js undeploy"
   },
   "eslintConfig": {
