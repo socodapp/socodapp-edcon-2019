@@ -10,7 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowForward } from '@material-ui/icons';
 
 
-import getListing from '../shared/etherscanUtils.js'
+import {getListing} from '../shared/etherscanUtils.js'
+
 
 class ChallengeList extends Component {
   state = {
