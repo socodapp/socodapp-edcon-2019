@@ -72,9 +72,5 @@ function publish() {
     .pipe(awspublish.reporter())
 }
 
-function cleanDist(done) {
-  del.sync(['dist/**/*', '!dist/images', '!dist/images/**/*'])
-  done()
-}
 
 gulp.task('deploy', publish, (done) => done())

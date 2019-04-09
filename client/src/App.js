@@ -7,6 +7,8 @@ import Home from './Home/home.js';
 import Deploy from './Deploy/deploy.js';
 import styles from './App.css';
 import ChallengeList from './ChallengeList/challenge-list.js';
+import Challenge from './Challenge/challenge.js';
+
 import Footer from './Footer/footer.js';
 
 class App extends Component {
@@ -18,6 +20,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/deploy" component={Deploy} />
           <Route path="/challenges" component={ChallengeList} />
+          <Route path="/challenge/:address" component={Challenge} />
           <Footer />
         </div>
       </BrowserRouter>

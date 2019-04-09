@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+import { Grid } from '@material-ui/core';
 
 import styles from './challenge.css'
 
-const Challenge = (props) => {
+class Challenge extends Component {
 
+  componentDidMount() {
+    const { match: { params } } = this.props;
+    console.log(params.address)
+  }
 
+  render() {
     return (
-      <div>
+      <Grid className={styles.container}>
         <p>this is the Challenge item view component</p>
-      </div>
+      </Grid>
     )
+  }
 }
 
 export default Challenge;
