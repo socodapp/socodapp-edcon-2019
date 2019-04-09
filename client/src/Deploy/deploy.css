@@ -54,3 +54,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+:local(.itemMargin) {
+  margin: 20px !important;
+}

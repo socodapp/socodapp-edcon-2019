@@ -100,8 +100,6 @@ class Deploy extends Component {
 
   render() {
     const { activeStep } = this.state;
-    const { selectedDate } = this.state;
-
     const { com_date, com_time } = this.state;
 
     return (
@@ -122,10 +120,10 @@ class Deploy extends Component {
         <Grid container className={styles.form}>
         {activeStep === 0 &&
         <Grid container className={styles.plz}>
-            <Typography variant="h6">
+            <Typography className={styles.itemMargin} variant="h6">
               Specify A Referee
             </Typography>
-            <Typography variant="body1" spacing={24}>
+            <Typography className={styles.itemMargin} variant="body1" spacing={24}>
               Please provide the ethereum address for the referee who will assess the challenge's completion.
             </Typography>
             <Grid container spacing={24}>
