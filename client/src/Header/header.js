@@ -6,8 +6,13 @@ import Button from '@material-ui/core/Button';
 
 import styles from './header.css';
 import { NavLink } from 'react-router-dom';
+import {initalize, web3Injected } from "../shared/metamaskUtils";
 
 class Header extends Component {
+
+  async componentWillMount() {
+    await initalize();
+  }
 
   render() {
     return (
@@ -41,6 +46,15 @@ class Header extends Component {
               </Typography>
             </Grid>
           </Grid>
+        { !web3Injected() &&
+          <Grid container className={styles.container} justify="center">
+            <a href="https://metamask.io">
+              <Button variant="contained" color="primary">
+              Please install metamask for full experience of Stryve.
+              </Button>
+            </a>
+          </Grid>
+        }
         </Toolbar>
     )
   }

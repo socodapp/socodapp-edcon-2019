@@ -9,15 +9,10 @@ import styles from './App.css';
 import ChallengeList from './ChallengeList/challenge-list.js';
 
 import Footer from './Footer/footer.js';
-import {initalize, web3Injected } from "./shared/metamaskUtils";
 
 class App extends Component {
-  async componentWillMount() {
-    await initalize();
-  }
-
   render() {
-    return web3Injected() ? (
+    return (
       <BrowserRouter>
         <div className={styles.App}>
           <Header />
@@ -26,10 +21,7 @@ class App extends Component {
           <Route path="/commitments/:address?" component={ChallengeList} />
           <Footer />
         </div>
-      </BrowserRouter>
-    ) : (
-        <h1>Please install Metamask</h1>
-    );
+      </BrowserRouter>);
   };
 };
 
