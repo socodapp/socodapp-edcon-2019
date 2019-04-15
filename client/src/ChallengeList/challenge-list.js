@@ -128,7 +128,7 @@ class ChallengeList extends Component {
             </Grid>
             <Grid item xs={2}>
               <Typography variant="h6">
-                {arr[3].substring(0, 8) + '...'}
+                {arr[3] ? arr[3].substring(0, 8) + '...' : null}
               </Typography>
             </Grid>
             <Grid item xs={12}>
